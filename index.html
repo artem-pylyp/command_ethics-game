@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Командирська етика — симулятор етичних рішень</title>
 <meta name="description" content="Інтерактивний симулятор етичних рішень командира для здобувачів вищої освіти закладів системи МВС України.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -115,6 +115,17 @@ header.top{
 .best{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font:400 12px var(--mono);color:var(--muted);display:flex;justify-content:space-between}
 .best b{color:var(--gold)}
 
+/* ---------- Timer ---------- */
+.timer{margin-bottom:20px;padding-bottom:18px;border-bottom:1px dashed var(--line)}
+.timer .t-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;
+  font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.timer b{font:900 24px/1 var(--display);letter-spacing:0;color:var(--gold);font-variant-numeric:tabular-nums}
+.timer .bar i{transition:width .2s linear,background .3s}
+.timer.idle b{color:var(--muted)}
+.timer.off b{color:var(--muted);font-size:15px}
+.timer.warn b{color:var(--warn)}
+.timer.danger b{color:var(--bad);animation:blink .6s infinite}
+
 /* ---------- Main stage ---------- */
 .stage{min-height:520px;padding:34px 36px 36px;overflow:hidden}
 @media (max-width:600px){.stage{padding:24px 20px}}
@@ -141,6 +152,9 @@ h2{font-size:clamp(22px,3vw,32px);font-weight:700}
   box-shadow:inset 0 0 30px rgba(61,123,255,.2)}
 .scene-icon svg{width:50px;height:50px}
 @media (max-width:600px){.scene-icon{width:60px;height:60px}.scene-icon svg{width:34px;height:34px}}
+
+.rep{display:inline-flex;align-items:center;gap:8px;margin:2px 0 6px;padding:6px 12px;border-radius:999px;
+  border:1px solid var(--line-strong);background:rgba(255,200,61,.07);font:600 11px var(--mono);letter-spacing:.06em;color:var(--gold)}
 
 .brief{
   border-left:3px solid var(--blue);background:rgba(61,123,255,.07);
@@ -177,13 +191,68 @@ h2{font-size:clamp(22px,3vw,32px);font-weight:700}
 .btn.ghost:hover{border-color:var(--gold)}
 .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 
-/* ---------- Intro ---------- */
-.intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0 6px}
-@media (max-width:700px){.intro-grid{grid-template-columns:1fr}}
-.tile{border:1px solid var(--line);border-radius:12px;padding:16px;background:rgba(255,255,255,.02)}
-.tile b{display:block;font:700 13px var(--display);margin:8px 0 4px}
-.tile p{margin:0;font-size:14px;color:var(--muted);line-height:1.45}
-.tile svg{width:28px;height:28px}
+/* ---------- Main menu ---------- */
+.menu{margin-top:26px;display:grid;gap:14px}
+.menu-banner{
+  all:unset;cursor:pointer;box-sizing:border-box;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;
+  padding:22px 26px;border-radius:18px;border:1px solid var(--line-strong);
+  background:linear-gradient(100deg,#27449c 0%,#46397c 55%,#8a2f45 100%);
+  box-shadow:0 18px 40px -22px rgba(61,123,255,.8);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.menu-banner:hover,.menu-banner:focus-visible{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 22px 46px -20px rgba(255,200,61,.55)}
+.menu-banner .mi{font-size:44px;line-height:1}
+.menu-banner b{display:block;font:700 clamp(20px,3vw,28px)/1.15 var(--display)}
+.menu-banner small{display:block;margin-top:6px;font-size:15px;line-height:1.5;color:#d6def5}
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.menu-card{
+  all:unset;cursor:pointer;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;min-height:170px;
+  padding:20px 22px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.025);
+  transition:transform .2s,border-color .2s,background .2s;
+}
+.menu-card:hover,.menu-card:focus-visible{transform:translateY(-3px);border-color:var(--gold);background:rgba(255,200,61,.05)}
+.menu-card .mi{font-size:34px;line-height:1;margin-bottom:8px}
+.menu-card b{font:700 clamp(16px,2.2vw,20px)/1.2 var(--display);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.menu-card small{font-size:14.5px;line-height:1.5;color:var(--muted)}
+.menu-banner:focus-visible,.menu-card:focus-visible,.choice:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.pill{font:700 12px var(--mono);letter-spacing:.1em;padding:4px 10px;border-radius:999px;border:1px solid}
+.pill.on{color:var(--good);border-color:rgba(61,220,151,.45);background:rgba(61,220,151,.1)}
+.pill.off{color:var(--muted);border-color:var(--line-strong);background:rgba(255,255,255,.04)}
+@media (max-width:600px){
+  .menu-grid{grid-template-columns:1fr}
+  .menu-card{min-height:0}
+  .menu-banner{grid-template-columns:1fr;gap:10px;padding:18px}
+}
+
+/* ---------- Info screens ---------- */
+.back{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.back:hover,.back:focus-visible{color:var(--gold)}
+.rules{list-style:none;counter-reset:r;padding:0;margin:18px 0 0;display:grid;gap:12px}
+.rules li{counter-increment:r;display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);font-size:16px}
+.rules li::before{content:counter(r);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:700 13px var(--mono);border:1px solid var(--line-strong);color:var(--gold)}
+.rules b{color:var(--text)}
+.legend{display:grid;gap:10px;margin-top:10px}
+.lg{display:flex;align-items:center;gap:12px;font-size:15px;color:#c6d2ec}
+.lg i{flex:none;width:44px;height:8px;border-radius:6px}
+.lg b{font:700 12px var(--mono);min-width:64px}
+.law{display:grid;gap:12px;margin-top:18px}
+.law-item{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:rgba(255,255,255,.02)}
+.law-item b{display:block;font-size:16px;line-height:1.4}
+.law-item p{margin:8px 0 0;font-size:15px;color:#c6d2ec}
+.law-item .used{display:block;margin-top:10px;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.ranks{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+.rk{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.02);opacity:.6}
+.rk .ic{font-size:28px;text-align:center;filter:grayscale(1)}
+.rk .nm{font-weight:600}
+.rk .ds{font-size:14px;color:var(--muted);margin-top:2px}
+.rk .mn{font:700 13px var(--mono);color:var(--muted);white-space:nowrap}
+.rk.reached{opacity:1;border-color:rgba(255,200,61,.35)}
+.rk.reached .ic{filter:none}
+.rk.reached .mn{color:var(--gold)}
+.rk.current{border-color:var(--gold);background:rgba(255,200,61,.08);box-shadow:0 10px 30px -18px rgba(255,200,61,.7)}
+.rank-badge{display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:10px 16px;border-radius:12px;border:1px solid var(--gold);background:rgba(255,200,61,.08);font:600 13px var(--mono);letter-spacing:.06em}
+.rank-badge b{font:700 15px var(--display);color:var(--gold)}
+.fine{font-size:13px;color:var(--muted);margin-top:16px}
 
 /* ---------- Consequence ---------- */
 .verdict{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;border:1px solid}
@@ -195,6 +264,7 @@ h2{font-size:clamp(22px,3vw,32px);font-weight:700}
 .effects{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
 .effect{font:600 13px var(--mono);padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
 .effect.up{color:var(--good)}.effect.down{color:var(--bad)}
+.effect em{font-style:normal;font-weight:400;color:var(--muted)}
 .note{margin:18px 0 0;padding:16px 18px;border-radius:10px;border:1px dashed var(--line-strong);font-size:15px;color:#c6d2ec}
 .note b{color:var(--gold);font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;display:block;margin-bottom:6px}
 
@@ -227,6 +297,53 @@ h2{font-size:clamp(22px,3vw,32px);font-weight:700}
 
 footer{margin-top:34px;text-align:center;font:400 12px var(--mono);color:var(--muted);letter-spacing:.06em}
 
+/* =====================================================
+   ТЕЛЕФОНИ (iOS / Android): панель показників і таймер
+   закріплені зверху екрана і не прокручуються.
+   Висота панелі вимірюється скриптом (--hud-h).
+   ===================================================== */
+@media (max-width:600px){
+  .app{padding:calc(var(--hud-h,130px) + 14px) 14px 40px}
+
+  .side{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    order:0;
+    margin:0;
+    padding:calc(8px + env(safe-area-inset-top,0px)) 14px 10px;
+    border-radius:0 0 14px 14px;
+    border-top:0;
+    background:rgba(8,16,34,.95);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+    box-shadow:0 10px 30px -10px rgba(0,0,0,.7);
+  }
+  .side h3,
+  .side .hint,
+  .side .best{display:none}
+
+  .timer{margin:0 0 8px;padding:0;border:0}
+  .timer .t-row{margin-bottom:4px;font-size:10px}
+  .timer b{font-size:15px}
+  .timer.off b{font-size:12px}
+  .timer .bar{height:5px}
+
+  #meters{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .meter{margin:0;min-width:0}
+  .meter .row{
+    flex-direction:column;align-items:flex-start;gap:1px;
+    font-size:10.5px;line-height:1.2;margin-bottom:5px;
+  }
+  .meter .row span:last-child{font-size:12px}
+  .delta{margin-left:4px;font-size:10px}
+  #meters .bar{height:6px}
+  .progress{margin:8px 0 0}
+  .progress span{height:3px}
+
+  .stage{scroll-margin-top:calc(var(--hud-h,130px) + 8px)}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .choice{opacity:1}
@@ -252,13 +369,18 @@ footer{margin-top:34px;text-align:center;font:400 12px var(--mono);color:var(--m
   <div class="layout">
     <main class="panel corners stage" id="stage" aria-live="polite"></main>
 
-    <aside class="panel side" aria-label="Показники командира">
+    <aside class="panel side" id="hud" aria-label="Показники командира">
+      <div class="timer idle" id="timer" role="timer" aria-live="off">
+        <div class="t-row"><span>Час на рішення</span><b id="tval">—</b></div>
+        <div class="bar"><i id="tbar" style="width:0%"></i></div>
+      </div>
       <h3>Показники командира</h3>
       <div id="meters"></div>
       <h3 style="margin-top:22px">Прогрес</h3>
       <div class="progress" id="progress"><span></span><span></span><span></span></div>
-      <p class="hint" id="hint">Кожне рішення впливає на законність ваших дій, авторитет і стан колективу.</p>
+      <p class="hint" id="hint">Показники починаються з 0% і зростають залежно від ваших рішень.</p>
       <div class="best"><span>Найкращий результат</span><b id="best">—</b></div>
+      <div class="best" style="margin-top:6px;border:0;padding-top:0"><span>Звання</span><b id="rankbest">—</b></div>
       <div class="best" style="margin-top:6px;border:0;padding-top:0"><span>Спроб</span><b id="tries">0</b></div>
     </aside>
   </div>
@@ -267,17 +389,20 @@ footer{margin-top:34px;text-align:center;font:400 12px var(--mono);color:var(--m
 </div>
 
 <script>
+/* ================== SETTINGS ================== */
+const TIME_LIMIT = 25;   // секунд на ухвалення рішення в кожній ситуації
+
 /* ================== ICONS ================== */
 const ICON = {
   shield:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linejoin="round"><path d="M24 4 40 10v12c0 10-6.8 17.8-16 20C14.8 39.8 8 32 8 22V10l16-6Z"/><path d="m17 23 5 5 9-10" stroke="#7fa6ff"/></svg>`,
   people:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round"><circle cx="17" cy="16" r="6"/><circle cx="33" cy="18" r="5" stroke="#7fa6ff"/><path d="M5 40c1-7 6-11 12-11s11 4 12 11"/><path d="M29 30c6 0 12 3 14 10" stroke="#7fa6ff"/></svg>`,
-  clock:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="25" r="16"/><path d="M24 15v10l7 5" stroke="#7fa6ff"/><path d="M18 5h12"/></svg>`,
-  scale:`<svg viewBox="0 0 48 48" fill="none" stroke="#7fa6ff" stroke-width="2" stroke-linecap="round"><path d="M24 6v36M14 42h20M8 14h32"/><path d="m8 14-5 12h10L8 14Zm32 0-5 12h10l-5-12Z" stroke="#ffc83d"/></svg>`,
-  star:`<svg viewBox="0 0 48 48" fill="none" stroke="#7fa6ff" stroke-width="2" stroke-linejoin="round"><path d="m24 5 5.6 12 13 1.4-9.7 8.8 2.8 12.8L24 33.4 12.3 40l2.8-12.8-9.7-8.8 13-1.4L24 5Z" stroke="#ffc83d"/></svg>`,
-  chart:`<svg viewBox="0 0 48 48" fill="none" stroke="#7fa6ff" stroke-width="2" stroke-linecap="round"><path d="M6 42h36"/><path d="M12 34V24M22 34V14M32 34V20" stroke="#ffc83d" stroke-width="4"/></svg>`
+  clock:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="25" r="16"/><path d="M24 15v10l7 5" stroke="#7fa6ff"/><path d="M18 5h12"/></svg>`
 };
 
-/* ================== DATA ================== */
+/* ================== DATA ==================
+   Усі показники стартують з 0% і накопичуються від рішень.
+   Правильні рішення дають приріст, помилкові — штраф
+   (нижче 0% показник не опускається). */
 const METRICS = [
   {id:"law",  name:"Законність дій"},
   {id:"auth", name:"Авторитет командира"},
@@ -286,55 +411,65 @@ const METRICS = [
 
 const SCENES = {
   s1:{
-    step:1, icon:"shield", kicker:"Оперативна ситуація №1", title:"Прохання підлеглого",
+    step:1, icon:"shield", kicker:"Оперативна ситуація №1 · Внутрішня дисципліна", title:"Прохання підлеглого",
     text:"Підлеглий, який сумлінно та якісно виконує службові завдання, допустив порушення дисципліни. Він приходить до вас особисто і просить приховати його провину, щоб уникнути дисциплінарного стягнення. Що ви зробите?",
     choices:[
       {key:"А", label:"Діяти за статутом — доповісти командуванню", sub:"Офіційний рапорт без винятків",
-        fx:{law:25,auth:10,team:-10}, verdict:"good", pts:45, next:"s2a",
+        fx:{law:35,auth:20,team:5}, verdict:"good", pts:45, next:"s2a",
         consequence:"Ви захищені законом, але в колективі можливе тимчасове напруження.",
-        why:"Принцип невідворотності відповідальності дотримано."},
+        why:"Принцип невідворотності відповідальності дотримано. Колектив поки лише придивляється до вас, тому довіра зростає повільно."},
       {key:"Б", label:"Кругова порука — приховати провину", sub:"«Свої своїх не здають»",
-        fx:{law:-45,auth:-25,team:10}, verdict:"bad", pts:0, ending:"complicity",
+        fx:{law:-40,auth:-30,team:10}, verdict:"bad", pts:0, ending:"complicity",
         consequence:"Ви берете ризик на себе, отримуєте стягнення та тиск керівництва, стаючи співучасником порушення.",
-        why:"Приховування порушення — це співучасть і конфлікт інтересів."},
+        why:"Приховування порушення — це співучасть і конфлікт інтересів. Короткочасна вдячність одного підлеглого не компенсує втрати законності та авторитету."},
       {key:"В", label:"Конструктивний компроміс — повідомити, але клопотати про пом'якшення", sub:"Рапорт + клопотання з урахуванням заслуг",
-        fx:{law:20,auth:15,team:15}, verdict:"good", pts:50, next:"s2b",
+        fx:{law:30,auth:25,team:25}, verdict:"good", pts:50, next:"s2b",
         consequence:"Командування оцінило вашу принциповість, але врахувало щире каяття та сумлінну службу підлеглого.",
-        why:"Законна процедура поєднана з індивідуальним підходом."}
+        why:"Законна процедура поєднана з індивідуальним підходом. Це дає зростання одразу за трьома напрямками."}
     ]
   },
   s2a:{
-    step:2, icon:"people", kicker:"Оперативна ситуація №2", title:"Тиск після рапорту",
+    step:2, icon:"people", kicker:"Оперативна ситуація №2 · Тиск на службі", title:"Тиск після рапорту",
+    rep:"Принциповий командир — ви доповіли без винятків",
     text:"Минуло 2 тижні після офіційного рапорту. Колектив підрозділу сприйняв ваш вчинок неоднозначно: частина колег уникає спілкування, вважаючи це «здачею своїх». Водночас вищий керівник викликає вас і каже, що через розголос падають показники морально-психологічного стану підрозділу, і натякає, що на наступну атестацію вам краще не розраховувати. Що ви оберете?",
     choices:[
       {key:"А", label:"Стояти на своєму, ігнорувати тиск", sub:"Дотримуватися закону попри наслідки",
-        fx:{law:20,auth:25,team:15}, verdict:"good", pts:55, ending:"iron",
+        fx:{law:35,auth:40,team:40}, verdict:"good", pts:55, ending:"iron",
         consequence:"Службова перевірка підтвердила правомірність ваших дій.",
-        why:"Ви не піддалися неформальному тиску колективу та керівництва."},
+        why:"Ви не піддалися неформальному тиску колективу та керівництва. Послідовність поступово повертає довіру колективу."},
       {key:"Б", label:"Спроба залагодити конфлікт", sub:"Неформальні поступки підлеглим у графіках",
-        fx:{law:-25,auth:-30,team:-5}, verdict:"bad", pts:-10, ending:"lostAuthority",
+        fx:{law:-25,auth:-30,team:5}, verdict:"bad", pts:-10, ending:"lostAuthority",
         consequence:"Неформальні поступки створили прецедент вибіркового правосуддя.",
-        why:"«Купівля» лояльності руйнує рівність і довіру."}
+        why:"«Купівля» лояльності руйнує рівність і довіру. Набрані раніше показники законності та авторитету знецінюються."}
     ]
   },
   s2b:{
-    step:2, icon:"clock", kicker:"Оперативна ситуація №2", title:"Повторне порушення",
+    step:2, icon:"clock", kicker:"Оперативна ситуація №2 · Повторне випробування", title:"Повторне порушення",
+    rep:"Командир, що йде назустріч — ви клопотали про пом'якшення",
     text:"Завдяки вашому клопотанню підлеглий отримав м'якше покарання, залишився на службі й подякував. Але через місяць він знову розслабився, спізнився на службу і знову просить «зам'яти» справу, сподіваючись на вашу доброту. Як діятимете далі?",
     choices:[
       {key:"А", label:"Суворе покарання", sub:"Повторне порушення — повна відповідальність",
-        fx:{law:20,auth:25,team:5}, verdict:"good", pts:50, ending:"mature",
+        fx:{law:35,auth:40,team:25}, verdict:"good", pts:50, ending:"mature",
         consequence:"Ви чітко провели межу згідно зі статутом.",
-        why:"Ваша доброта не стала слабкістю."},
+        why:"Ваша доброта не стала слабкістю. Колектив бачить, що правила однакові для всіх."},
       {key:"Б", label:"Черговий компроміс", sub:"Ще раз пробачити «по-людськи»",
         fx:{law:-45,auth:-35,team:-25}, verdict:"bad", pts:-35, ending:"systemic",
         consequence:"Повторне приховування перетворилося на систему.",
-        why:"Правила перестали працювати однаково для всіх."},
+        why:"Правила перестали працювати однаково для всіх. Накопичений раніше результат майже повністю втрачено."},
       {key:"В", label:"Провести виховну бесіду та встановити жорсткий контроль", sub:"Без офіційної фіксації проступку",
-        fx:{law:-10,auth:10,team:10}, verdict:"mid", pts:10, ending:"mentor",
+        fx:{law:-10,auth:15,team:15}, verdict:"mid", pts:10, ending:"mentor",
         consequence:"Ви уникнули скандалу, але проступок юридично не зафіксовано.",
         why:"Працює локально, але створює персональні ризики для командира."}
     ]
   }
+};
+
+/* Рішення не ухвалено вчасно */
+const TIMEOUT_CHOICE = {
+  key:"⏱", label:"Рішення не ухвалено — час вичерпано", sub:"",
+  fx:{law:-10,auth:-20,team:-15}, verdict:"bad", pts:-20, ending:"timeout",
+  consequence:"Час вичерпано: ви не встигли ухвалити рішення.",
+  why:"У службовій практиці зволікання — це теж рішення, і воно не на вашу користь: розвиток подій визначають інші."
 };
 
 const ENDINGS = {
@@ -355,14 +490,48 @@ const ENDINGS = {
     legal:"Статут внутрішньої служби (обов'язок командира виховувати підлеглих, але в межах визначених законом дисциплінарних процедур)."},
   complicity:{title:"Кругова порука", grade:"Провал", tone:"bad",
     text:"Ви приховали порушення, розраховуючи на вдячність підлеглого. Але факт порушення розкрився, і тепер відповідальність несе не лише він, а й ви — як командир, що свідомо не відреагував. Довіра керівництва втрачена, а колектив засвоїв, що правила можна обходити «по-дружньому».",
-    legal:"Дисциплінарний статут (обов'язок командира реагувати на кожне порушення дисципліни) та Закон України «Про запобігання корупції» (неприпустимість приховування правопорушень і дій в умовах конфлікту інтересів)."}
+    legal:"Дисциплінарний статут (обов'язок командира реагувати на кожне порушення дисципліни) та Закон України «Про запобігання корупції» (неприпустимість приховування правопорушень і дій в умовах конфлікту інтересів)."},
+  timeout:{title:"Зволікання під тиском", grade:"Провал", tone:"bad",
+    text:"Ви не ухвалили рішення вчасно. Підлеглий, колектив і керівництво побачили, що в критичний момент командир вагається, а ситуація розвивалася без вашого впливу. Втрачений час коштував вам контролю над підрозділом.",
+    legal:"Дисциплінарний статут (командир персонально відповідає за стан дисципліни в підрозділі та своєчасне ухвалення рішень)."}
 };
 
 const REFLECT = {
   good:["Які аргументи ви наведете колективу, щоб пояснити своє рішення без втрати довіри?","Як підтримувати морально-психологічний стан підрозділу, не поступаючись принципами?"],
   mid:["Що станеться, якщо під час перевірки з'ясується, що повторний проступок не був зафіксований?","Як поєднати виховну роботу з офіційною дисциплінарною процедурою?"],
-  bad:["Яку правову відповідальність несе командир за приховування порушень підлеглих?","Чим «кругова порука» загрожує дисципліні та репутації всього підрозділу?","Яке рішення на першому кроці дало б змогу і проявити людяність, і залишитися в межах закону?"]
+  bad:["Яку правову відповідальність несе командир за приховування порушень підлеглих або за зволікання з рішенням?","Чим «кругова порука» загрожує дисципліні та репутації всього підрозділу?","Яке рішення на першому кроці дало б змогу і проявити людяність, і залишитися в межах закону?"]
 };
+
+/* ---- Правова база ---- */
+const LAW = [
+  {t:"Закон України «Про запобігання корупції», ст. 22",
+   d:"Обмеження щодо використання службових повноважень чи становища: їх не можна використовувати для одержання неправомірної вигоди для себе чи інших осіб. Службове становище командира не повинно працювати на користь окремої людини всупереч інтересам служби.",
+   u:"Ситуація 1 · Б  ·  Ситуація 2 · Б"},
+  {t:"Закон України «Про Дисциплінарний статут Національної поліції України» від 15.03.2018 № 2337-VIII",
+   d:"Регулює дисциплінарні стягнення. Під час вибору виду стягнення враховуються характер проступку, обставини, за яких його вчинено, та особа порушника. На цьому ґрунтується індивідуальний підхід — клопотання про пом'якшення.",
+   u:"Ситуація 1 · А, В  ·  Ситуація 2 · А, В"},
+  {t:"Дисциплінарний статут та Статут внутрішньої служби Збройних Сил України",
+   d:"Для військовослужбовців: командир відповідає за стан дисципліни, реагує на порушення та виховує підлеглих у межах визначених законом дисциплінарних процедур.",
+   u:"Ситуація 1 · А, Б  ·  Ситуація 2 · А, В"},
+  {t:"Наказ МВС від 09.11.2016 № 1179 «Правила етичної поведінки поліцейських»",
+   d:"Етичні стандарти служби: чесність, неупередженість і справедливе ставлення до людей. Прикладна основа для оцінки рівності вимог до всіх підлеглих.",
+   u:"Ситуація 2 · А, Б"},
+  {t:"Закон України «Про Національну поліцію» від 02.07.2015 № 580-VIII",
+   d:"Рамковий закон про засади діяльності поліції та статус поліцейського, у межах яких діє командир.",
+   u:"Усі ситуації"}
+];
+
+/* ---- Звання за результат ---- */
+const RANKS = [
+  {min:0,  icon:"🪖", name:"Рядовий",          d:"Потрібне повторне навчання основ командирської етики."},
+  {min:20, icon:"🎖️", name:"Молодший сержант", d:"Є розуміння вимог, але рішення поки непослідовні."},
+  {min:35, icon:"🎖️", name:"Сержант",          d:"Ви тримаєте базові вимоги законності."},
+  {min:50, icon:"⭐", name:"Лейтенант",        d:"Ризиковані рішення, але загальна лінія правильна."},
+  {min:65, icon:"⭐", name:"Капітан",          d:"Уміння поєднувати закон і роботу з людьми."},
+  {min:80, icon:"🏅", name:"Майор",            d:"Зразкове командирське рішення в складній ситуації."},
+  {min:88, icon:"🏆", name:"Полковник",        d:"Принциповість, справедливість і витримка на найвищому рівні."}
+];
+const rankFor = score => [...RANKS].reverse().find(r=>score>=r.min);
 
 /* ================== STATE ================== */
 let state;
@@ -373,19 +542,28 @@ const store = {
   get(){try{return JSON.parse(localStorage.getItem("cmd-ethics")||"{}")}catch{return {}}},
   set(v){try{localStorage.setItem("cmd-ethics",JSON.stringify(v))}catch{}}
 };
+const settings = (()=>{
+  let v={timer:true};
+  try{v={...v,...JSON.parse(localStorage.getItem("cmd-ethics-settings")||"{}")}}catch{}
+  return v;
+})();
+const saveSettings=()=>{try{localStorage.setItem("cmd-ethics-settings",JSON.stringify(settings))}catch{}};
+const HINT_START = "Показники починаються з 0% і зростають залежно від ваших рішень.";
 
 function reset(){
-  state = {m:{law:50,auth:50,team:50}, history:[], step:0};
+  stopTimer();
+  state = {m:{law:0,auth:0,team:0}, history:[], step:0};
   renderMeters();
   setProgress(0);
+  setTimerUI(null);
 }
 
 /* ================== HUD ================== */
 function color(v){return v>=70?"var(--good)":v>=40?"var(--warn)":"var(--bad)"}
-function renderMeters(fx){
+function renderMeters(delta){
   $("#meters").innerHTML = METRICS.map(x=>{
-    const v = state.m[x.id], d = fx && fx[x.id];
-    return `<div class="meter"><div class="row"><span>${x.name}</span><span>${v}<span class="delta ${d>0?"up":"down"} ${d?"show":""}">${d?(d>0?"+":"")+d:""}</span></span></div>
+    const v = state.m[x.id], d = delta && delta[x.id];
+    return `<div class="meter"><div class="row"><span>${x.name}</span><span>${v}%<span class="delta ${d>0?"up":"down"} ${d?"show":""}">${d?(d>0?"+":"")+d:""}</span></span></div>
       <div class="bar"><i style="width:${v}%;background:${color(v)}"></i></div></div>`;
   }).join("");
 }
@@ -395,9 +573,49 @@ function setProgress(n){
 function updateBest(){
   const s = store.get();
   $("#best").textContent = s.best!=null ? s.best+"%" : "—";
+  $("#rankbest").textContent = s.best!=null ? rankFor(s.best).name : "—";
   $("#tries").textContent = s.tries||0;
 }
 setInterval(()=>{$("#clock").textContent=new Date().toLocaleTimeString("uk-UA")},1000);
+
+/* Висота закріпленої панелі на телефоні → відступ для вмісту */
+(function watchHud(){
+  const hud = $("#hud");
+  const set = ()=>document.documentElement.style.setProperty("--hud-h", hud.offsetHeight+"px");
+  set();
+  if("ResizeObserver" in window) new ResizeObserver(set).observe(hud);
+  addEventListener("resize",set);
+})();
+
+/* ================== TIMER ================== */
+let tmr=null, tDeadline=0;
+
+function setTimerUI(left){
+  const el=$("#timer"), bar=$("#tbar");
+  if(left==null){
+    el.className = settings.timer ? "timer idle" : "timer idle off";
+    $("#tval").textContent = settings.timer ? "—" : "ВИМК";
+    bar.style.width="0%";
+    return;
+  }
+  const cls = left<=5 ? " danger" : left<=10 ? " warn" : "";
+  el.className = "timer"+cls;
+  $("#tval").textContent = Math.max(0,Math.ceil(left))+" с";
+  bar.style.width = Math.max(0,left/TIME_LIMIT*100)+"%";
+  bar.style.background = left<=5 ? "var(--bad)" : left<=10 ? "var(--warn)" : "var(--gold)";
+}
+function stopTimer(){ clearInterval(tmr); tmr=null; }
+function startTimer(onExpire){
+  stopTimer();
+  if(!settings.timer){ setTimerUI(null); return; }
+  tDeadline = performance.now()+TIME_LIMIT*1000;
+  setTimerUI(TIME_LIMIT);
+  tmr = setInterval(()=>{
+    const left = (tDeadline-performance.now())/1000;
+    if(left<=0){ stopTimer(); setTimerUI(0); onExpire(); }
+    else setTimerUI(left);
+  },100);
+}
 
 /* ================== TYPEWRITER ================== */
 let typing=null;
@@ -418,23 +636,118 @@ function show(html){
   stage.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
 }
 
-function intro(){
-  reset();
-  $("#hint").textContent="Кожне рішення впливає на законність ваших дій, авторитет і стан колективу.";
-  show(`
-    <div class="kicker">Навчальний тренажер</div>
-    <h1>Ви — <em>командир</em>.<br>Рішення за вами.</h1>
-    <p class="lead">Змодельовані службові ситуації, у яких немає простих відповідей. Оберіть, як діяти, — і побачите, як ваші рішення вплинуть на законність, авторитет і колектив. Наприкінці отримаєте оцінку у відсотках і розбір кожного кроку з правовим обґрунтуванням.</p>
-    <div class="intro-grid">
-      <div class="tile">${ICON.scale}<b>Законність</b><p>Чи відповідають дії вимогам статутів і антикорупційного законодавства.</p></div>
-      <div class="tile">${ICON.star}<b>Авторитет</b><p>Як вас сприймають керівництво та підлеглі.</p></div>
-      <div class="tile">${ICON.chart}<b>Колектив</b><p>Дисципліна, довіра та морально-психологічний стан підрозділу.</p></div>
-    </div>
-    <div class="actions"><button class="btn" id="go">Розпочати ▸</button></div>
-  `);
-  $("#go").onclick=()=>scene("s1");
+/* ---------- Головне меню ---------- */
+function paintTimerCard(btn){
+  const on = settings.timer;
+  btn.setAttribute("aria-pressed", on);
+  btn.innerHTML = `<span class="mi">⏱️</span>
+    <b>Таймер: <span class="pill ${on?"on":"off"}">${on?"УВІМК":"ВИМК"}</span></b>
+    <small>${on
+      ? `${TIME_LIMIT} секунд на рішення. Бездіяльність командира теж має ціну.`
+      : "Без обмеження часу — можна обдумати кожне рішення. Натисніть, щоб увімкнути таймер."}</small>`;
 }
 
+function menu(){
+  typing=null;
+  reset();
+  $("#hint").textContent=HINT_START;
+  show(`
+    <div class="kicker">Навчальний тренажер</div>
+    <h1 style="font-size:clamp(28px,4.4vw,44px)">Ви — <em>командир</em>.<br>Рішення за вами.</h1>
+    <p class="lead">Службові ситуації, у яких немає простих відповідей. Усі показники починаються з нуля — ви набираєте їх власними рішеннями.</p>
+    <div class="menu">
+      <button class="menu-banner" id="mGo">
+        <span class="mi">⚔️</span>
+        <span><b>Розпочати місію</b><small>Пройдіть сюжетну кампанію: внутрішня дисципліна, а далі — тиск на службі. Ваша репутація з першої справи вплине на другу.</small></span>
+      </button>
+      <div class="menu-grid">
+        <button class="menu-card" id="mHow"><span class="mi">🎯</span><b>Як грати</b><small>Правила, показники та що означають кольори.</small></button>
+        <button class="menu-card" id="mLaw"><span class="mi">⚖️</span><b>Правова база</b><small>На які норми спирається кожне рішення.</small></button>
+        <button class="menu-card" id="mRank"><span class="mi">🎖️</span><b>Звання за результат</b><small>Яке звання ви можете заслужити.</small></button>
+        <button class="menu-card" id="mTimer"></button>
+      </div>
+    </div>
+  `);
+  $("#mGo").onclick=startMission;
+  $("#mHow").onclick=howto;
+  $("#mLaw").onclick=lawScreen;
+  $("#mRank").onclick=ranksScreen;
+  const tb=$("#mTimer");
+  paintTimerCard(tb);
+  tb.onclick=()=>{
+    settings.timer=!settings.timer; saveSettings();
+    paintTimerCard(tb); setTimerUI(null);
+  };
+}
+
+function startMission(){ reset(); scene("s1"); }
+
+/* ---------- Як грати ---------- */
+function howto(){
+  $("#hint").textContent=HINT_START;
+  show(`
+    <button class="back" id="back">← До меню</button>
+    <div class="kicker">Довідка</div>
+    <h2>Як грати</h2>
+    <ol class="rules">
+      <li><span><b>Місія з двох ситуацій.</b> Ви проходите оперативну ситуацію №1, а ситуація №2 залежить від вашого першого рішення — репутація переходить далі.</span></li>
+      <li><span><b>Оберіть один варіант дій</b> — торкніться картки або натисніть клавішу (1–3 чи А–Б–В).</span></li>
+      <li><span><b>Показники командира.</b> Законність, авторитет і згуртованість колективу починаються з 0% і накопичуються від ваших рішень. Помилкові рішення знижують їх, але нижче 0% показник не падає.</span></li>
+      <li><span><b>Таймер.</b> На кожне рішення — ${TIME_LIMIT} секунд (таймер можна вимкнути в меню). Якщо час вичерпано, рішення вважається не ухваленим, і це має ціну.</span></li>
+      <li><span><b>Підсумок.</b> Етичний рейтинг у відсотках: 75% — якість ваших рішень, 25% — підсумкові показники. За результат присвоюється звання.</span></li>
+    </ol>
+    <div class="section-t">Що означають кольори показників</div>
+    <div class="legend">
+      <div class="lg"><i style="background:var(--good)"></i><b style="color:var(--good)">70–100%</b>Високий рівень — командир діє впевнено й законно.</div>
+      <div class="lg"><i style="background:var(--warn)"></i><b style="color:var(--warn)">40–69%</b>Середній рівень — є ризики, потрібне вдосконалення.</div>
+      <div class="lg"><i style="background:var(--bad)"></i><b style="color:var(--bad)">0–39%</b>Критичний рівень — рішення створюють загрозу службі.</div>
+    </div>
+    <div class="actions"><button class="btn" id="go">Розпочати місію ▸</button><button class="btn ghost" id="back2">До меню</button></div>
+  `);
+  $("#back").onclick=menu; $("#back2").onclick=menu; $("#go").onclick=startMission;
+}
+
+/* ---------- Правова база ---------- */
+function lawScreen(){
+  $("#hint").textContent=HINT_START;
+  show(`
+    <button class="back" id="back">← До меню</button>
+    <div class="kicker">Довідка</div>
+    <h2>Правова база</h2>
+    <p class="lead" style="font-size:16px">Норми, на які спирається оцінка кожного рішення в симуляторі.</p>
+    <div class="law">
+      ${LAW.map(l=>`<div class="law-item"><b>${l.t}</b><p>${l.d}</p><span class="used">Де застосовується: ${l.u}</span></div>`).join("")}
+    </div>
+    <p class="fine">Навчальна довідка. Перед використанням у навчальному процесі звіряйте актуальні редакції актів на zakon.rada.gov.ua.</p>
+    <div class="actions"><button class="btn ghost" id="back2">← До меню</button></div>
+  `);
+  $("#back").onclick=menu; $("#back2").onclick=menu;
+}
+
+/* ---------- Звання ---------- */
+function ranksScreen(){
+  const best = store.get().best;
+  const cur = best!=null ? rankFor(best) : null;
+  $("#hint").textContent=HINT_START;
+  show(`
+    <button class="back" id="back">← До меню</button>
+    <div class="kicker">Довідка</div>
+    <h2>Звання за результат</h2>
+    <p class="lead" style="font-size:16px">${cur
+      ? `Ваш найкращий результат: <b>${best}%</b>. Поточне звання: <b style="color:var(--gold)">${cur.name}</b>.`
+      : "Пройдіть місію, щоб отримати перше звання. Звання умовні й присвоюються за етичний рейтинг."}</p>
+    <ul class="ranks">
+      ${RANKS.map(r=>`<li class="rk ${best!=null&&best>=r.min?"reached":""} ${cur&&cur.name===r.name?"current":""}">
+        <span class="ic">${r.icon}</span>
+        <div><div class="nm">${r.name}</div><div class="ds">${r.d}</div></div>
+        <span class="mn">від ${r.min}%</span></li>`).join("")}
+    </ul>
+    <div class="actions"><button class="btn" id="go">Розпочати місію ▸</button><button class="btn ghost" id="back2">До меню</button></div>
+  `);
+  $("#back").onclick=menu; $("#back2").onclick=menu; $("#go").onclick=startMission;
+}
+
+/* ---------- Ситуації ---------- */
 function stepper(cur){
   const names=["Ситуація 1","Ситуація 2","Підсумок"];
   return `<div class="steps" aria-label="Етап ${cur} із 3">`+names.map((n,i)=>{
@@ -445,13 +758,17 @@ function stepper(cur){
 
 function scene(id){
   const sc = SCENES[id];
+  stopTimer(); setTimerUI(null);
   state.step = sc.step; setProgress(sc.step);
-  $("#hint").textContent="Уважно прочитайте ситуацію та оберіть один варіант дій.";
+  $("#hint").textContent = settings.timer
+    ? `Прочитайте ситуацію. Таймер (${TIME_LIMIT} с) запуститься, коли з'являться варіанти дій.`
+    : "Уважно прочитайте ситуацію та оберіть один варіант дій.";
   show(`
     <div class="scene-head">
       <div class="scene-icon">${ICON[sc.icon]}</div>
       <div><div class="kicker">${sc.kicker}</div><h2>${sc.title}</h2>${stepper(sc.step)}</div>
     </div>
+    ${sc.rep?`<div class="rep">★ Репутація з першої справи: ${sc.rep}</div>`:""}
     <div class="brief" id="brief"></div>
     <button class="skip" id="skip">Показати весь текст</button>
     <div class="choices" id="choices"></div>
@@ -465,6 +782,8 @@ function scene(id){
         <span class="arrow">→</span>
       </button>`).join("");
     $("#choices").querySelectorAll(".choice").forEach(b=>b.onclick=()=>choose(id,+b.dataset.i));
+    $("#hint").textContent = settings.timer ? "Оберіть один варіант дій, поки йде час." : "Оберіть один варіант дій.";
+    startTimer(()=>applyChoice(id,TIMEOUT_CHOICE));
   };
   typeText($("#brief"),sc.text,renderChoices);
   $("#skip").onclick=()=>typing&&typing.finish();
@@ -472,18 +791,34 @@ function scene(id){
 
 const clamp=v=>Math.max(0,Math.min(100,v));
 const VERDICT = {good:"Обґрунтоване рішення",mid:"Ризиковане рішення",bad:"Помилкове рішення"};
+const choiceName = c => c.key==="⏱" ? c.label : `${c.key}. ${c.label}`;
 
 function choose(sceneId,i){
-  const sc=SCENES[sceneId], c=sc.choices[i];
-  for(const k in c.fx) state.m[k]=clamp(state.m[k]+c.fx[k]);
+  applyChoice(sceneId, SCENES[sceneId].choices[i]);
+}
+
+function applyChoice(sceneId,c){
+  stopTimer(); setTimerUI(null);
+  typing=null;
+  const sc=SCENES[sceneId];
+  const applied={};
+  for(const k in c.fx){
+    const before=state.m[k];
+    state.m[k]=clamp(before+c.fx[k]);
+    applied[k]=state.m[k]-before;
+  }
   state.history.push({scene:sc, choice:c});
-  renderMeters(c.fx);
-  const eff = METRICS.map(x=>{const d=c.fx[x.id]; return `<span class="effect ${d>=0?"up":"down"}">${d>=0?"▲ +":"▼ "}${d} ${x.name}</span>`}).join("");
+  renderMeters(applied);
+  const eff = METRICS.map(x=>{
+    const d=c.fx[x.id], a=applied[x.id];
+    const floor = d<0 && a!==d ? ` <em>· на мінімумі</em>` : "";
+    return `<span class="effect ${d>=0?"up":"down"}">${d>=0?"▲ +":"▼ "}${d} ${x.name}${floor}</span>`;
+  }).join("");
   const last = !!c.ending;
   $("#hint").textContent = "Зверніть увагу, як змінилися показники командира.";
   show(`
     <div class="kicker">Наслідок рішення</div>
-    <p class="chosen">Ваш вибір: <b>${c.key}. ${c.label}</b></p>
+    <p class="chosen">Ваш вибір: <b>${choiceName(c)}</b></p>
     <h2>${c.consequence}</h2>
     <span class="verdict ${c.verdict}">● ${VERDICT[c.verdict]}</span>
     <div class="effects">${eff}</div>
@@ -494,7 +829,7 @@ function choose(sceneId,i){
 }
 
 function computeScore(){
-  const decisions = state.history.reduce((s,h)=>s+h.choice.pts,0);   // up to 100
+  const decisions = state.history.reduce((s,h)=>s+h.choice.pts,0);   // до 100
   const avg = (state.m.law+state.m.auth+state.m.team)/3;               // 0..100
   // 75% — якість рішень, 25% — підсумкові показники
   return Math.round(clamp(clamp(decisions)*0.75 + avg*0.25));
@@ -503,6 +838,7 @@ function computeScore(){
 function result(endingId){
   const e = ENDINGS[endingId];
   const score = computeScore();
+  const rank = rankFor(score);
   setProgress(3);
   const s = store.get(); s.tries=(s.tries||0)+1; s.best=Math.max(s.best??0,score); store.set(s); updateBest();
   $("#hint").textContent = "Перегляньте розбір і спробуйте інший шлях — порівняйте результати.";
@@ -527,6 +863,7 @@ function result(endingId){
         <div style="margin-bottom:14px">${stepper(3)}</div><div class="kicker">Підсумок · ${e.grade}</div>
         <h1 style="font-size:clamp(28px,4vw,44px)">${e.title}</h1>
         <p class="grade" style="color:${col}">${message}</p>
+        <div class="rank-badge">${rank.icon} Звання: <b>${rank.name}</b></div>
       </div>
     </div>
 
@@ -546,7 +883,7 @@ function result(endingId){
     <ol class="timeline">
       ${state.history.map((h,i)=>`<li>
         <span class="num">${i+1}</span>
-        <div><div class="t">${h.scene.title}: ${h.choice.key}. ${h.choice.label}</div><div class="w">${VERDICT[h.choice.verdict]} — ${h.choice.why}</div></div>
+        <div><div class="t">${h.scene.title}: ${choiceName(h.choice)}</div><div class="w">${VERDICT[h.choice.verdict]} — ${h.choice.why}</div></div>
         <span class="pts ${h.choice.verdict}">${h.choice.verdict==="good"?"✔":h.choice.verdict==="mid"?"!":"✖"}</span>
       </li>`).join("")}
     </ol>
@@ -556,15 +893,17 @@ function result(endingId){
 
     <div class="actions">
       <button class="btn" id="again">↻ Пройти ще раз</button>
+      <button class="btn ghost" id="tomenu">До меню</button>
       <button class="btn ghost" id="copy">Скопіювати результат</button>
     </div>
   `);
   requestAnimationFrame(()=>requestAnimationFrame(()=>{ $("#arc").style.strokeDashoffset = C*(1-score/100); }));
   const num=$("#num"), t0=performance.now(), dur=reduce?0:1800;
   (function tick(t){const p=dur?Math.min(1,(t-t0)/dur):1; num.textContent=Math.round(score*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(tick)})(t0);
-  $("#again").onclick=intro;
+  $("#again").onclick=startMission;
+  $("#tomenu").onclick=menu;
   $("#copy").onclick=async()=>{
-    const txt=`Командирська етика — мій результат: ${score}% («${e.title}»). `+
+    const txt=`Командирська етика — мій результат: ${score}%, звання «${rank.name}» («${e.title}»). `+
       state.history.map((h,i)=>`Крок ${i+1}: ${h.choice.label}`).join("; ")+".";
     try{await navigator.clipboard.writeText(txt);$("#copy").textContent="Скопійовано ✔"}catch{$("#copy").textContent="Не вдалося скопіювати"}
   };
@@ -572,7 +911,7 @@ function result(endingId){
 
 /* ================== START ================== */
 updateBest();
-intro();
+menu();
 document.addEventListener("keydown",e=>{
   const map={"1":0,"2":1,"3":2,"а":0,"б":1,"в":2,"a":0,"b":1,"v":2};
   const btns=[...document.querySelectorAll(".choice")];
@@ -582,5 +921,3 @@ document.addEventListener("keydown",e=>{
 </script>
 </body>
 </html>
-<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6afb3ee8c121e084d8a054b4" data-netlify-site-id="6fbd1f6a-0443-4b0b-9d0c-3c8a0542203e" data-agent-runner-id="6afb3af8d452150997189d2b"></script>
-<script async src="/.netlify/scripts/hud?variant=owner-private" data-nf-variant="owner-private" data-netlify-site-id="6fbd1f6a-0443-4b0b-9d0c-3c8a0542203e" data-app-host="app.netlify.com"></script>
