@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Командирська етика — симулятор етичних рішень</title>
-<meta name="description" content="Інтерактивний симулятор етичних рішень командира для здобувачів вищої освіти закладів системи МВС України.">
+<meta name="description" content="Інтерактивний симулятор професійної етики та управлінських рішень.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -70,16 +70,25 @@ body{
 /* ---------- Layout ---------- */
 .app{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
 header.top{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
   padding:10px 0 22px;border-bottom:1px solid var(--line);margin-bottom:28px;
 }
 .brand{display:flex;align-items:center;gap:12px}
 .brand svg{width:38px;height:38px;flex:none}
 .brand b{font:700 15px/1.1 var(--display);letter-spacing:.04em;text-transform:uppercase}
 .brand small{display:block;font:400 11px/1.4 var(--mono);color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
-.status{font:400 12px var(--mono);color:var(--muted);display:flex;gap:18px;align-items:center}
+.status{font:400 12px var(--mono);color:var(--muted);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 10px var(--good);margin-right:6px;animation:blink 1.6s infinite}
 @keyframes blink{50%{opacity:.3}}
+
+.snd-btn{
+  all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:999px;border:1px solid var(--line-strong);
+  background:rgba(255,255,255,.04);color:var(--text);font:600 11px var(--mono);
+  letter-spacing:.06em;transition:border-color .2s,background .2s,color .2s;
+}
+.snd-btn:hover,.snd-btn:focus-visible{border-color:var(--gold);color:var(--gold);background:rgba(255,200,61,.08)}
+.snd-btn.muted{color:var(--muted);border-color:var(--line)}
 
 .layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
 @media (max-width:900px){.layout{grid-template-columns:1fr}.side{order:-1}}
@@ -132,7 +141,7 @@ header.top{
 .screen{animation:enter .6s cubic-bezier(.2,.8,.2,1) both}
 @keyframes enter{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 .kicker{font:600 12px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
-.kicker::before{content:"";width:26px;height:2px;background:var(--gold)}
+.kicker::before{content:"";width:26px;height:2px;background:var(--gold);flex:none}
 .steps{display:flex;align-items:center;gap:8px;margin:-6px 0 4px;flex-wrap:wrap;font:600 12px var(--mono);color:var(--muted)}
 .steps .st{display:flex;align-items:center;gap:6px}
 .steps .st i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong)}
@@ -224,6 +233,25 @@ h2{font-size:clamp(22px,3vw,32px);font-weight:700}
   .menu-banner{grid-template-columns:1fr;gap:10px;padding:18px}
 }
 
+/* ---------- Scenario picker ---------- */
+.scn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+@media (max-width:700px){.scn-grid{grid-template-columns:1fr}}
+.scn-card{
+  all:unset;cursor:pointer;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;
+  padding:22px;border-radius:18px;border:1px solid var(--line-strong);
+  background:linear-gradient(160deg,rgba(61,123,255,.14),rgba(255,255,255,.02));
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+.scn-card:hover,.scn-card:focus-visible{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 18px 40px -22px rgba(255,200,61,.6);outline:none}
+.scn-card .tag{font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.scn-card b{font:700 clamp(18px,2.4vw,22px)/1.2 var(--display)}
+.scn-card p{margin:0;font-size:15px;color:#c6d2ec;line-height:1.5}
+.scn-card .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.scn-card .chips span{font:600 11px var(--mono);padding:4px 9px;border-radius:999px;border:1px solid var(--line-strong);color:var(--blue-soft)}
+.scn-card .bestline{margin-top:6px;font:600 12px var(--mono);color:var(--muted)}
+.scn-card .bestline b{font:700 12px var(--mono);color:var(--gold)}
+.scn-ic{width:46px;height:46px}
+
 /* ---------- Info screens ---------- */
 .back{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .back:hover,.back:focus-visible{color:var(--gold)}
@@ -235,7 +263,7 @@ h2{font-size:clamp(22px,3vw,32px);font-weight:700}
 .lg{display:flex;align-items:center;gap:12px;font-size:15px;color:#c6d2ec}
 .lg i{flex:none;width:44px;height:8px;border-radius:6px}
 .lg b{font:700 12px var(--mono);min-width:64px}
-.law{display:grid;gap:12px;margin-top:18px}
+.law{display:grid;gap:12px;margin-top:14px}
 .law-item{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:rgba(255,255,255,.02)}
 .law-item b{display:block;font-size:16px;line-height:1.4}
 .law-item p{margin:8px 0 0;font-size:15px;color:#c6d2ec}
@@ -281,6 +309,7 @@ h2{font-size:clamp(22px,3vw,32px);font-weight:700}
 .section-t{font:600 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:34px 0 12px;display:flex;align-items:center;gap:10px}
 .section-t::after{content:"";flex:1;height:1px;background:var(--line)}
 .legal{border-left:3px solid var(--gold);background:rgba(255,200,61,.06);padding:16px 20px;border-radius:0 10px 10px 0;font-size:15.5px}
+.conclusion{border-left:3px solid var(--blue);background:rgba(61,123,255,.07);padding:16px 20px;border-radius:0 10px 10px 0;font-size:15.5px;color:#d6def5}
 .final-meters{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media (max-width:700px){.final-meters{grid-template-columns:1fr}}
 .fm{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:rgba(255,255,255,.02)}
@@ -363,7 +392,11 @@ footer{margin-top:34px;text-align:center;font:400 12px var(--mono);color:var(--m
       </svg>
       <div><b>Командирська етика</b><small>симулятор управлінських рішень</small></div>
     </div>
-    <div class="status"><span><span class="dot"></span>НАВЧАЛЬНИЙ РЕЖИМ</span><span id="clock"></span></div>
+    <div class="status">
+      <span><span class="dot"></span>НАВЧАЛЬНИЙ РЕЖИМ</span>
+      <button class="snd-btn" id="sndBtn" type="button" aria-label="Увімкнути або вимкнути звук">🔊 ЗВУК</button>
+      <span id="clock"></span>
+    </div>
   </header>
 
   <div class="layout">
@@ -385,33 +418,202 @@ footer{margin-top:34px;text-align:center;font:400 12px var(--mono);color:var(--m
     </aside>
   </div>
 
-  <footer>Навчальний симулятор для здобувачів вищої освіти закладів системи МВС України</footer>
+  <footer>Інтерактивний симулятор професійної етики та управлінських рішень</footer>
 </div>
 
 <script>
 /* ================== SETTINGS ================== */
 const TIME_LIMIT = 25;   // секунд на ухвалення рішення в кожній ситуації
 
+const settings = (()=>{
+  let v={timer:true, sound:true};
+  try{v={...v,...JSON.parse(localStorage.getItem("cmd-ethics-settings")||"{}")}}catch{}
+  return v;
+})();
+const saveSettings=()=>{try{localStorage.setItem("cmd-ethics-settings",JSON.stringify(settings))}catch{}};
+
+/* ================== AUDIO ENGINE (Web Audio API) ================== */
+const Sound = (()=>{
+  let ctx = null, bgmGain = null, sfxGain = null, bgmLoop = null, bgmRunning = false;
+
+  function init(){
+    if(!ctx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return false;
+      ctx = new AC();
+      bgmGain = ctx.createGain();
+      bgmGain.gain.value = settings.sound ? 0.055 : 0;
+      bgmGain.connect(ctx.destination);
+
+      sfxGain = ctx.createGain();
+      sfxGain.gain.value = settings.sound ? 0.19 : 0;
+      sfxGain.connect(ctx.destination);
+    }
+    if(ctx.state === "suspended") ctx.resume().catch(()=>{});
+    return true;
+  }
+
+  function tone(freq, type, dur, delay=0, vol=1, toFreq=null){
+    if(!settings.sound || !init()) return;
+    const t0 = ctx.currentTime + delay;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t0);
+    if(toFreq) osc.frequency.exponentialRampToValueAtTime(toFreq, t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.linearRampToValueAtTime(vol, t0 + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g);
+    g.connect(sfxGain);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.03);
+  }
+
+  function startBgm(){
+    if(!settings.sound || bgmRunning || !init()) return;
+    bgmRunning = true;
+    // Світлий, бадьорий хакатонний грув (116 BPM, восьмі ноти ≈ 0.258 с)
+    const bars = [
+      { bass: 130.81, arp: [261.63, 329.63, 392.00, 493.88, 523.25, 493.88, 392.00, 329.63] }, // Cmaj7
+      { bass: 174.61, arp: [261.63, 349.23, 440.00, 523.25, 659.25, 523.25, 440.00, 349.23] }, // Fmaj7
+      { bass: 196.00, arp: [246.94, 293.66, 392.00, 493.88, 587.33, 493.88, 392.00, 293.66] }, // G6
+      { bass: 164.81, arp: [246.94, 293.66, 392.00, 493.88, 523.25, 493.88, 392.00, 329.63] }  // Em7 -> lift
+    ];
+    const stepDur = 0.26;
+    let barIdx = 0;
+
+    const playBar = ()=>{
+      if(!bgmRunning || !settings.sound) return;
+      const b = bars[barIdx % bars.length];
+      barIdx++;
+      const now = ctx.currentTime;
+
+      // Легкий пульсуючий бас на 1-й та 5-й восьмій
+      [0, 4].forEach(beat=>{
+        const oscB = ctx.createOscillator();
+        const gB = ctx.createGain();
+        oscB.type = "triangle";
+        const tB = now + beat * stepDur;
+        oscB.frequency.setValueAtTime(b.bass, tB);
+        gB.gain.setValueAtTime(0.0001, tB);
+        gB.gain.linearRampToValueAtTime(0.45, tB + 0.025);
+        gB.gain.exponentialRampToValueAtTime(0.0001, tB + stepDur * 3.2);
+        oscB.connect(gB);
+        gB.connect(bgmGain);
+        oscB.start(tB);
+        oscB.stop(tB + stepDur * 3.4);
+      });
+
+      // Світле арпеджіо
+      b.arp.forEach((freq, idx)=>{
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "sine";
+        const tN = now + idx * stepDur;
+        osc.frequency.setValueAtTime(freq, tN);
+        const accent = (idx % 2 === 0) ? 0.34 : 0.2;
+        g.gain.setValueAtTime(0.0001, tN);
+        g.gain.linearRampToValueAtTime(accent, tN + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, tN + stepDur * 0.92);
+        osc.connect(g);
+        g.connect(bgmGain);
+        osc.start(tN);
+        osc.stop(tN + stepDur);
+      });
+    };
+
+    playBar();
+    bgmLoop = setInterval(playBar, stepDur * 8 * 1000);
+  }
+
+  function stopBgm(){
+    bgmRunning = false;
+    if(bgmLoop){ clearInterval(bgmLoop); bgmLoop = null; }
+  }
+
+  function syncMute(){
+    if(bgmGain && ctx) bgmGain.gain.setTargetAtTime(settings.sound ? 0.055 : 0, ctx.currentTime, 0.08);
+    if(sfxGain && ctx) sfxGain.gain.setTargetAtTime(settings.sound ? 0.19 : 0, ctx.currentTime, 0.05);
+    if(settings.sound) startBgm();
+    else stopBgm();
+  }
+
+  return {
+    unlock(){ if(settings.sound){ init(); startBgm(); } },
+    click(){ tone(587.33, "sine", 0.065, 0, 0.45, 783.99); },
+    choose(){ tone(523.25, "triangle", 0.095, 0, 0.55, 783.99); },
+    good(){
+      tone(523.25, "triangle", 0.15, 0, 0.6);
+      tone(659.25, "triangle", 0.17, 0.08, 0.6);
+      tone(783.99, "triangle", 0.25, 0.16, 0.65);
+    },
+    mid(){
+      tone(440, "triangle", 0.15, 0, 0.55);
+      tone(587.33, "triangle", 0.2, 0.1, 0.55);
+    },
+    bad(){
+      tone(246.94, "sawtooth", 0.16, 0, 0.35, 196.00);
+      tone(196.00, "sawtooth", 0.24, 0.12, 0.35, 146.83);
+    },
+    tick(){ tone(880, "sine", 0.035, 0, 0.22); },
+    finish(toneType){
+      if(toneType === "good"){
+        [523.25, 659.25, 783.99, 1046.5].forEach((f,i)=>tone(f, "triangle", 0.26, i*0.09, 0.6));
+      } else if(toneType === "mid"){
+        [440, 523.25, 659.25].forEach((f,i)=>tone(f, "triangle", 0.24, i*0.1, 0.5));
+      } else {
+        [329.63, 293.66, 261.63].forEach((f,i)=>tone(f, "triangle", 0.25, i*0.12, 0.48));
+      }
+    },
+    toggle(){
+      settings.sound = !settings.sound;
+      saveSettings();
+      syncMute();
+      if(settings.sound) tone(659.25, "sine", 0.08, 0, 0.5, 880);
+    }
+  };
+})();
+
+function updateSoundBtn(){
+  const b = document.querySelector("#sndBtn");
+  if(!b) return;
+  b.textContent = settings.sound ? "🔊 ЗВУК" : "🔇 БЕЗ ЗВУКУ";
+  b.classList.toggle("muted", !settings.sound);
+}
+
+document.addEventListener("pointerdown", e=>{
+  Sound.unlock();
+  if(e.target.closest("button") && !e.target.closest("#sndBtn") && !e.target.closest(".choice")){
+    Sound.click();
+  }
+}, {passive:true});
+
 /* ================== ICONS ================== */
 const ICON = {
   shield:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linejoin="round"><path d="M24 4 40 10v12c0 10-6.8 17.8-16 20C14.8 39.8 8 32 8 22V10l16-6Z"/><path d="m17 23 5 5 9-10" stroke="#7fa6ff"/></svg>`,
   people:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round"><circle cx="17" cy="16" r="6"/><circle cx="33" cy="18" r="5" stroke="#7fa6ff"/><path d="M5 40c1-7 6-11 12-11s11 4 12 11"/><path d="M29 30c6 0 12 3 14 10" stroke="#7fa6ff"/></svg>`,
-  clock:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="25" r="16"/><path d="M24 15v10l7 5" stroke="#7fa6ff"/><path d="M18 5h12"/></svg>`
+  clock:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="25" r="16"/><path d="M24 15v10l7 5" stroke="#7fa6ff"/><path d="M18 5h12"/></svg>`,
+  laptop:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="11" width="30" height="20" rx="2"/><path d="M4 38h40" stroke="#7fa6ff"/><path d="m17 38 1.5-7h11L31 38"/></svg>`,
+  phone:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 37h6" stroke="#7fa6ff"/></svg>`,
+  news:`<svg viewBox="0 0 48 48" fill="none" stroke="#ffc83d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="34" height="32" rx="3"/><path d="M13 16h14M13 23h22M13 30h22" stroke="#7fa6ff"/></svg>`
 };
 
-/* ================== DATA ==================
+/* ================== SCENARIOS ==================
    Усі показники стартують з 0% і накопичуються від рішень.
    Правильні рішення дають приріст, помилкові — штраф
    (нижче 0% показник не опускається). */
-const METRICS = [
-  {id:"law",  name:"Законність дій"},
-  {id:"auth", name:"Авторитет командира"},
-  {id:"team", name:"Згуртованість колективу"}
+
+/* ---------- Сценарій 1: «Прохання підлеглого» ---------- */
+const METRICS_1 = [
+  {id:"law",  name:"Законність дій",          ic:"⚖️"},
+  {id:"auth", name:"Авторитет командира",     ic:"⭐"},
+  {id:"team", name:"Згуртованість колективу", ic:"🤝"}
 ];
 
-const SCENES = {
+const SCENES_1 = {
   s1:{
-    step:1, icon:"shield", kicker:"Оперативна ситуація №1 · Внутрішня дисципліна", title:"Прохання підлеглого",
+    step:1, icon:"shield", kicker:"Сценарій 1 · Ситуація №1 · Внутрішня дисципліна", title:"Прохання підлеглого",
     text:"Підлеглий, який сумлінно та якісно виконує службові завдання, допустив порушення дисципліни. Він приходить до вас особисто і просить приховати його провину, щоб уникнути дисциплінарного стягнення. Що ви зробите?",
     choices:[
       {key:"А", label:"Діяти за статутом — доповісти командуванню", sub:"Офіційний рапорт без винятків",
@@ -429,8 +631,8 @@ const SCENES = {
     ]
   },
   s2a:{
-    step:2, icon:"people", kicker:"Оперативна ситуація №2 · Тиск на службі", title:"Тиск після рапорту",
-    rep:"Принциповий командир — ви доповіли без винятків",
+    step:2, icon:"people", kicker:"Сценарій 1 · Ситуація №2 · Тиск на службі", title:"Тиск після рапорту",
+    rep:"Репутація з першої справи: принциповий командир — ви доповіли без винятків",
     text:"Минуло 2 тижні після офіційного рапорту. Колектив підрозділу сприйняв ваш вчинок неоднозначно: частина колег уникає спілкування, вважаючи це «здачею своїх». Водночас вищий керівник викликає вас і каже, що через розголос падають показники морально-психологічного стану підрозділу, і натякає, що на наступну атестацію вам краще не розраховувати. Що ви оберете?",
     choices:[
       {key:"А", label:"Стояти на своєму, ігнорувати тиск", sub:"Дотримуватися закону попри наслідки",
@@ -444,8 +646,8 @@ const SCENES = {
     ]
   },
   s2b:{
-    step:2, icon:"clock", kicker:"Оперативна ситуація №2 · Повторне випробування", title:"Повторне порушення",
-    rep:"Командир, що йде назустріч — ви клопотали про пом'якшення",
+    step:2, icon:"clock", kicker:"Сценарій 1 · Ситуація №2 · Повторне випробування", title:"Повторне порушення",
+    rep:"Репутація з першої справи: командир, що йде назустріч — ви клопотали про пом'якшення",
     text:"Завдяки вашому клопотанню підлеглий отримав м'якше покарання, залишився на службі й подякував. Але через місяць він знову розслабився, спізнився на службу і знову просить «зам'яти» справу, сподіваючись на вашу доброту. Як діятимете далі?",
     choices:[
       {key:"А", label:"Суворе покарання", sub:"Повторне порушення — повна відповідальність",
@@ -456,7 +658,7 @@ const SCENES = {
         fx:{law:-45,auth:-35,team:-25}, verdict:"bad", pts:-35, ending:"systemic",
         consequence:"Повторне приховування перетворилося на систему.",
         why:"Правила перестали працювати однаково для всіх. Накопичений раніше результат майже повністю втрачено."},
-      {key:"В", label:"Провести виховну бесіду та встановити жорсткий контроль", sub:"Без офіційної фіксації проступку",
+      {key:"В", label:"Провести виховну бесіду та встановити контроль", sub:"Без офіційної фіксації проступку",
         fx:{law:-10,auth:15,team:15}, verdict:"mid", pts:10, ending:"mentor",
         consequence:"Ви уникнули скандалу, але проступок юридично не зафіксовано.",
         why:"Працює локально, але створює персональні ризики для командира."}
@@ -464,46 +666,181 @@ const SCENES = {
   }
 };
 
-/* Рішення не ухвалено вчасно */
-const TIMEOUT_CHOICE = {
-  key:"⏱", label:"Рішення не ухвалено — час вичерпано", sub:"",
-  fx:{law:-10,auth:-20,team:-15}, verdict:"bad", pts:-20, ending:"timeout",
-  consequence:"Час вичерпано: ви не встигли ухвалити рішення.",
-  why:"У службовій практиці зволікання — це теж рішення, і воно не на вашу користь: розвиток подій визначають інші."
-};
-
-const ENDINGS = {
-  iron:{title:"Залізна доброчесність", grade:"Найвищий бал", tone:"good",
+const ENDINGS_1 = {
+  iron:{title:"Залізна доброчесність", grade:"Найвищий бал",
     text:"Ви не піддалися неформальному тиску колективу та керівництва. Службова перевірка підтвердила правомірність ваших дій, а напруження в підрозділі з часом спало, поступившись повазі до вашої принциповості. Ви зміцнили репутацію непідкупного командира.",
     legal:"Дисциплінарний статут (обов'язок командира підтримувати службову дисципліну) та ст. 22 Закону України «Про запобігання корупції» (недопущення використання службових повноважень в особистих чи корпоративних інтересах)."},
-  lostAuthority:{title:"Втрата авторитету", grade:"Низький бал", tone:"bad",
+  lostAuthority:{title:"Втрата авторитету", grade:"Низький бал",
     text:"Намагаючись «купити» лояльність підлеглих неформальними поступками у графіках, ви створили прецедент вибіркового правосуддя. Колектив відчув слабкість, а вище керівництво під час перевірки виявило порушення обліку відпусток, що вдарило по вашій кар'єрі.",
     legal:"Порушення принципу рівності та об'єктивності командира (Статут внутрішньої служби). Компроміс із совістю заради тимчасового спокою руйнує довіру."},
-  mature:{title:"Зріле та справедливе лідерство", grade:"Найвищий бал", tone:"good",
+  mature:{title:"Зріле та справедливе лідерство", grade:"Найвищий бал",
     text:"Ви продемонстрували вміння поєднувати людяність із твердістю. Першого разу ви дали підлеглому шанс, але коли він спробував цим зловживати — чітко провели межу згідно зі статутом. Колектив зрозумів, що ваша доброта не є слабкістю.",
     legal:"Дисциплінарний статут (індивідуалізація відповідальності та невідворотність покарання за повторне порушення)."},
-  systemic:{title:"Системна помилка та співучасть", grade:"Провал", tone:"bad",
+  systemic:{title:"Системна помилка та співучасть", grade:"Провал",
     text:"Повторне приховування порушення перетворилося на систему. Інші працівники побачили, що правила працюють не для всіх, і дисципліна в підрозділі впала. Під час чергової перевірки факти приховування розкрилися, і до відповідальності притягнули вже вас.",
-    legal:"Закон України «Про запобігання корупції» (порушення вимог щодо запобігання та врегулювання конфлікту інтересів, приховування правопорушень)."},
-  mentor:{title:"Ризиковане наставництво", grade:"Середній бал", tone:"mid",
+    legal:"Закон України «Про запобігання корупції» (порушення вимог щодо запобігання та врегулювання конфлікту інтересів, приховування правопопорушень)."},
+  mentor:{title:"Ризиковане наставництво", grade:"Середній бал",
     text:"Ви уникнули публічного скандалу та взяли ситуацію під ручний контроль. Підлеглий виправився під вашим наглядом, проте юридично факт повторного проступку залишився незафіксованим. Такий підхід спрацював локально, але несе високі персональні ризики для командира у разі перевірки.",
     legal:"Статут внутрішньої служби (обов'язок командира виховувати підлеглих, але в межах визначених законом дисциплінарних процедур)."},
-  complicity:{title:"Кругова порука", grade:"Провал", tone:"bad",
+  complicity:{title:"Кругова порука", grade:"Провал",
     text:"Ви приховали порушення, розраховуючи на вдячність підлеглого. Але факт порушення розкрився, і тепер відповідальність несе не лише він, а й ви — як командир, що свідомо не відреагував. Довіра керівництва втрачена, а колектив засвоїв, що правила можна обходити «по-дружньому».",
     legal:"Дисциплінарний статут (обов'язок командира реагувати на кожне порушення дисципліни) та Закон України «Про запобігання корупції» (неприпустимість приховування правопорушень і дій в умовах конфлікту інтересів)."},
-  timeout:{title:"Зволікання під тиском", grade:"Провал", tone:"bad",
+  timeout:{title:"Зволікання під тиском", grade:"Провал",
     text:"Ви не ухвалили рішення вчасно. Підлеглий, колектив і керівництво побачили, що в критичний момент командир вагається, а ситуація розвивалася без вашого впливу. Втрачений час коштував вам контролю над підрозділом.",
     legal:"Дисциплінарний статут (командир персонально відповідає за стан дисципліни в підрозділі та своєчасне ухвалення рішень)."}
 };
 
+/* ---------- Сценарій 2: «Щира подяка» ---------- */
+const METRICS_2 = [
+  {id:"int",   name:"Доброчесність",  ic:"🛡"},
+  {id:"eff",   name:"Ефективність",   ic:"⚙️"},
+  {id:"trust", name:"Довіра колег",   ic:"🤝"}
+];
+
+const LEGAL_2 = "Закон України «Про запобігання корупції»: ст. 23 (обмеження щодо одержання подарунків; рішення на користь особи, від якої отримано подарунок, вважаються прийнятими в умовах конфлікту інтересів) та ст. 54 (заборона одержання органами влади пільг, послуг і майна поза встановленим законом порядком).";
+const CONCLUSION_2 = "Короткострокове вирішення матеріальних проблем підрозділу через неформальні домовленості або непрямі механізми неминуче призводить до втрати незалежності. У справжній етичній дилемі доброчесне рішення часто вимагає сміливості витримати невдоволення колективу або відкрито заявити вищому керівництву про нестачу ресурсів, замість пошуку неправомірних компромісів.";
+
+const SCENES_2 = {
+  t1:{
+    step:1, icon:"laptop", kicker:"Сценарій 2 · Крок 1 · Зав'язка", title:"Щира подяка",
+    text:"Ви — керівник відділу поліції. Ваш підрозділ щойно успішно розкрив крадіжку майна великого агрохолдингу. На знак подяки власник бізнесу привозить до відділу 5 нових потужних ноутбуків: «Це не хабар, справа вже закрита. Це просто допомога — бачу, що ваші слідчі працюють на старих комп'ютерах, які зависають». Оформлювати благодійність офіційно він не хоче через «зайву паперову тяганину». Відділу критично не вистачає техніки для вчасної здачі звітності. Що ви зробите?",
+    choices:[
+      {key:"А", label:"Прийняти техніку неофіційно та одразу передати слідчим для роботи", sub:"Ефективність важливіша за формальності",
+        fx:{int:-20,eff:25,trust:15}, verdict:"bad", pts:0, next:"t2a",
+        consequence:"Слідчі отримали робочі комп'ютери, але ви прийняли майно від зацікавленої особи поза процедурою.",
+        why:"Ефективність куплена ціною доброчесності: подарунок від бізнесу, пов'язаного зі справою відділу, і майно поза офіційною процедурою суперечать антикорупційним обмеженням."},
+      {key:"Б", label:"Відмовитися від подарунка, пояснивши, що закон суворо забороняє поліцейським приймати такі речі без процедури", sub:"Закон — понад усе",
+        fx:{int:20,eff:-10,trust:-15}, verdict:"good", pts:45, next:"t2b",
+        consequence:"Ви дотрималися закону, але відділ залишився зі старою технікою, а частина колективу невдоволена.",
+        why:"Відмова — єдина законна позиція на цьому кроці, але вона має ціну в короткостроковій ефективності та довірі колег."},
+      {key:"В", label:"Запропонувати передати техніку на баланс місцевої поліцейської профспілки, яка потім передасть її відділу", sub:"Передача через профспілку",
+        fx:{int:-10,eff:15,trust:10}, verdict:"bad", pts:5, next:"t2c",
+        consequence:"Техніка надійшла «непрямим шляхом», але ризик прихований: це маскування, а не вирішення.",
+        why:"Обхід заборони через третю особу не змінює суті: вигода надходить від зацікавленого бізнесу. Такий механізм несе прихований ризик викриття."}
+    ]
+  },
+  t2a:{
+    step:2, icon:"phone", kicker:"Сценарій 2 · Крок 2А · «Тепер ваша черга»", title:"Послуга за ноутбуки",
+    rep:"Ваш вибір на кроці 1: техніку прийнято неофіційно",
+    text:"Через три місяці цей самий бізнесмен телефонує вам. У нього конфлікт із конкурентами за землю. Він просить «послугу»: «Я вам тоді допоміг, тепер ваша черга. Треба завтра ж провести в них жорсткі обшуки». Що ви оберете?",
+    choices:[
+      {key:"А", label:"Відмовити та наголосити, що ноутбуки не купують лояльність поліції, а ви дієте лише за законом", sub:"Чітке «ні» щодо неправомірних вимог",
+        fx:{int:-20,eff:-30}, verdict:"mid", pts:20, ending:"t_seized",
+        consequence:"Бізнесмен пише анонімку в ДБР, що ви вимагали техніку. Її вилучають зі скандалом.",
+        why:"Відмова правильна, але неформальний подарунок уже зробив вас вразливим: ціну за перший крок усе одно доводиться платити."},
+      {key:"Б", label:"Зареєструвати провадження та відправити групу на обшук конкурентів, щоб задовольнити запит бізнесмена", sub:"Виконати прохання після допомоги",
+        fx:{int:-40,trust:-30}, verdict:"bad", pts:-40, ending:"t_tool",
+        consequence:"Відділ стає інструментом у бізнес-розбірках. Ви — співучасник злочину.",
+        why:"Використання службових повноважень в інтересах особи, від якої отримано подарунок, — пряма дорога до співучасті."},
+      {key:"В", label:"Запропонувати подати офіційну заяву для розгляду в загальному порядку без проведення негайних заходів", sub:"Розгляд у загальному порядку",
+        fx:{int:-15,trust:-20}, verdict:"bad", pts:-15, ending:"t_rep",
+        consequence:"Бізнесмен розуміє, що його «кинули», і поширює чутки, що ваш відділ бере хабарі та не виконує обіцянок.",
+        why:"Імітація дій не знімає залежності. Репутація знищена з обох боків."}
+    ]
+  },
+  t2b:{
+    step:2, icon:"people", kicker:"Сценарій 2 · Крок 2Б · Наслідки відмови", title:"Невдоволення колективу",
+    rep:"Ваш вибір на кроці 1: ви відмовилися від подарунка",
+    text:"Слідчі дізнаються, що ви відмовилися від нових ноутбуків. У колективі починається невдоволення: «Ми купуємо папір за свої гроші, а ви відмовляєтесь від техніки через принципи!». Продуктивність та моральний дух відділу стрімко падають. Що ви оберете?",
+    choices:[
+      {key:"А", label:"Провести службову нараду, попередити про дисциплінарну відповідальність та нагадати про антикорупційне законодавство", sub:"Вимога дотримання статуту і закону",
+        fx:{int:10,trust:-25,eff:-20}, verdict:"mid", pts:15, ending:"t_harsh",
+        consequence:"Закон дотримано, але клімат у колективі знищений. Досвідчені кадри пишуть рапорти на звільнення.",
+        why:"Правильна позиція, подана як покарання, руйнує довіру й продуктивність."},
+      {key:"Б", label:"Підготувати офіційну грантову заявку до міжнародних партнерів (напр. КМЄС) для легального оновлення техніки", sub:"Взяти ініціативу",
+        fx:{int:20,eff:10,trust:20}, verdict:"good", pts:55, ending:"t_grant",
+        consequence:"Техніка з'явиться не одразу, але ви зберегли і закон, і повагу команди.",
+        why:"Легальна альтернатива знімає конфлікт між принципами та потребами підрозділу."},
+      {key:"В", label:"Скинутися з заступниками з власної зарплати й купити хоча б один новий комп'ютер та папір", sub:"Заспокоїти колектив власним коштом",
+        fx:{int:5,eff:5,trust:10}, verdict:"mid", pts:25, ending:"t_selffund",
+        consequence:"Ви зняли напругу, але нормалізували самофінансування поліції та приховали системну проблему від керівництва ГУНП.",
+        why:"Особиста жертва не вирішує системну проблему, а лише ховає її від тих, хто має її розв'язати."}
+    ]
+  },
+  t2c:{
+    step:2, icon:"news", kicker:"Сценарій 2 · Крок 2В · Наслідки передачі через профспілку", title:"Журналістське розслідування",
+    rep:"Ваш вибір на кроці 1: передача через профспілку",
+    text:"Через місяць місцеві журналісти-розслідувачі публікують матеріал: ваш відділ отримує матеріальні блага від бізнесу, маскуючи це під діяльність сторонніх ГО. Керівництво ГУНП та внутрішня безпека вимагають негайних пояснень. Що ви оберете?",
+    choices:[
+      {key:"А", label:"Пояснити, що отримання та розподіл майна є виключною ініціативою профспілки, а ви до цього не причетні", sub:"Посилання на автономність профспілки",
+        fx:{int:-10,trust:-30}, verdict:"bad", pts:-15, ending:"t_scapegoat",
+        consequence:"Формально ви чисті, але колектив бачить, що ви «зливаєте» своїх, рятуючи власну посаду.",
+        why:"Рятувати себе коштом команди — шлях до повної втрати довіри."},
+      {key:"Б", label:"Визнати провину публічно: пояснити, що пішли на це через критичну нестачу ресурсів, і повернути техніку", sub:"Відповісти відкрито",
+        fx:{int:15,trust:10}, verdict:"mid", pts:30, ending:"t_confess",
+        consequence:"Ви отримуєте дисциплінарне стягнення, але зберігаєте обличчя перед суспільством та колективом.",
+        why:"Відкрите визнання не скасовує відповідальності, зате повертає довіру."},
+      {key:"В", label:"Запропонувати бізнесмену виступити в медіа та підтвердити безкорисливий характер допомоги", sub:"Публічне спростування в медіа",
+        fx:{int:-30,trust:-15}, verdict:"bad", pts:-35, ending:"t_hook",
+        consequence:"Ви занурюєтесь у брехню і стаєте боржником бізнесмена, який тепер тримає вас на гачку.",
+        why:"Нова залежність замість виходу з попередньої: брехня потребує все більше брехні."}
+    ]
+  }
+};
+
+const ENDINGS_2 = {
+  t_seized:{title:"Ціна неформальної допомоги", grade:"Низький бал", legal:LEGAL_2,
+    text:"Ви відмовили бізнесмену, але неформальний подарунок уже зробив вас вразливим. Анонімна заява до ДБР перетворила ваш запізнілий принцип на скандал: техніку вилучили, ефективність відділу впала."},
+  t_tool:{title:"Інструмент у бізнес-розбірках", grade:"Провал", legal:LEGAL_2,
+    text:"Ви виконали запит на обшуки після отриманої допомоги. Відділ став знаряддям у боротьбі бізнес-конкурентів, а ви — співучасником правопорушення. Довіра колективу зруйнована."},
+  t_rep:{title:"Знищена репутація", grade:"Провал", legal:LEGAL_2,
+    text:"Переведення питання в загальний порядок без реальних дій не врятувало ситуацію. Бізнесмен відчув себе обманутим і поширив чутки, що ваш відділ бере хабарі та не виконує обіцянок."},
+  t_harsh:{title:"Закон без команди", grade:"Середній бал", legal:LEGAL_2,
+    text:"Закон дотримано, але тиск на нараді зруйнував клімат у колективі. Досвідчені кадри пишуть рапорти на звільнення, а ефективність відділу продовжує падати."},
+  t_grant:{title:"Легальний шлях", grade:"Найвищий бал", legal:LEGAL_2,
+    text:"Ви не лише відмовилися від сумнівної допомоги, а й запропонували легальну альтернативу — грантову заявку до міжнародних партнерів. Техніка з'явиться не одразу, але ви зберегли і закон, і повагу команди."},
+  t_selffund:{title:"Прихована проблема", grade:"Середній бал", legal:LEGAL_2,
+    text:"Ви зняли напругу власним коштом, але нормалізували практику самофінансування поліції та приховали системну проблему від керівництва ГУНП. Завтра вона повернеться."},
+  t_scapegoat:{title:"Рятуючи власну посаду", grade:"Провал", legal:LEGAL_2,
+    text:"Формально ви чисті, але колектив бачить, що ви «зливаєте» своїх. Довіра до вас як до командира майже втрачена."},
+  t_confess:{title:"Визнана провина", grade:"Середній бал", legal:LEGAL_2,
+    text:"Ви отримали дисциплінарне стягнення, але зберегли обличчя перед суспільством і колективом: визнали проблему відкрито, пояснили її причину й повернули техніку."},
+  t_hook:{title:"На гачку у бізнесмена", grade:"Провал", legal:LEGAL_2,
+    text:"Ви занурилися у брехню і стали боржником бізнесмена, який тепер тримає вас на гачку. Незалежність підрозділу втрачена."},
+  t_timeout:{title:"Зволікання під тиском", grade:"Провал", legal:LEGAL_2,
+    text:"Ви не ухвалили рішення вчасно. Бізнесмен, колектив і керівництво побачили, що в критичний момент командир вагається, а ситуація розвивалася без вашого впливу."}
+};
+
+/* ---------- Реєстр сценаріїв ---------- */
+const SCN = {
+  1:{id:1, title:"Прохання підлеглого", tag:"Внутрішня дисципліна · тиск на службі", icon:"shield",
+     desc:"Підлеглий просить приховати його провину. Принциповість проти кругової поруки та тиску колективу.",
+     metrics:METRICS_1, scenes:SCENES_1, endings:ENDINGS_1, start:"s1", weights:[.75,.25],
+     timeoutFx:{law:-10,auth:-20,team:-15}, timeoutEnding:"timeout"},
+  2:{id:2, title:"Щира подяка", tag:"Подарунки · конфлікт інтересів", icon:"laptop",
+     desc:"Бізнесмен дарує відділу ноутбуки без оформлення. Ефективність підрозділу проти антикорупційних обмежень.",
+     metrics:METRICS_2, scenes:SCENES_2, endings:ENDINGS_2, start:"t1", weights:[.85,.15],
+     timeoutFx:{int:-5,eff:-25,trust:-15}, timeoutEnding:"t_timeout",
+     conclusion:CONCLUSION_2}
+};
+const ALL_SCENES = {...SCENES_1, ...SCENES_2};
+const ALL_ENDINGS = {...ENDINGS_1, ...ENDINGS_2};
+let cur = SCN[1];   // поточний сценарій
+
+function timeoutChoice(scn){
+  return {
+    key:"⏱", label:"Рішення не ухвалено — час вичерпано", sub:"",
+    fx:scn.timeoutFx, verdict:"bad", pts:-20, ending:scn.timeoutEnding,
+    consequence:"Час вичерпано: ви не встигли ухвалити рішення.",
+    why:"У службовій практиці зволікання — це теж рішення, і воно не на вашу користь: розвиток подій визначають інші."
+  };
+}
+
 const REFLECT = {
-  good:["Які аргументи ви наведете колективу, щоб пояснити своє рішення без втрати довіри?","Як підтримувати морально-психологічний стан підрозділу, не поступаючись принципами?"],
-  mid:["Що станеться, якщо під час перевірки з'ясується, що повторний проступок не був зафіксований?","Як поєднати виховну роботу з офіційною дисциплінарною процедурою?"],
-  bad:["Яку правову відповідальність несе командир за приховування порушень підлеглих або за зволікання з рішенням?","Чим «кругова порука» загрожує дисципліні та репутації всього підрозділу?","Яке рішення на першому кроці дало б змогу і проявити людяність, і залишитися в межах закону?"]
+  1:{
+    good:["Які аргументи ви наведете колективу, щоб пояснити своє рішення без втрати довіри?","Як підтримувати морально-психологічний стан підрозділу, не поступаючись принципами?"],
+    mid:["Що станеться, якщо під час перевірки з'ясується, що повторний проступок не був зафіксований?","Як поєднати виховну роботу з офіційною дисциплінарною процедурою?"],
+    bad:["Яку правову відповідальність несе командир за приховування порушень підлеглих або за зволікання з рішенням?","Чим «кругова порука» загрожує дисципліні та репутації всього підрозділу?","Яке рішення на першому кроці дало б змогу і проявити людяність, і залишитися в межах закону?"]
+  },
+  2:{
+    good:["Як пояснити колективу, що відмова від подарунка — це захист підрозділу, а не «принцип заради принципу»?","До кого та в який спосіб можна легально звернутися по допомогу з обладнанням?"],
+    mid:["Чим «компроміс» у питанні подарунків відрізняється від законного вирішення нестачі ресурсів?","Як відкрито повідомити вищому керівництву про системну нестачу ресурсів?"],
+    bad:["Чому подарунок «після закритої справи» все одно створює залежність і конфлікт інтересів?","Які легальні способи оновлення техніки існують замість неформальних домовленостей і непрямих схем?","Яке рішення на першому кроці зберегло б і законність, і працездатність відділу?"]
+  }
 };
 
 /* ---- Правова база ---- */
-const LAW = [
+const LAW_1 = [
   {t:"Закон України «Про запобігання корупції», ст. 22",
    d:"Обмеження щодо використання службових повноважень чи становища: їх не можна використовувати для одержання неправомірної вигоди для себе чи інших осіб. Службове становище командира не повинно працювати на користь окремої людини всупереч інтересам служби.",
    u:"Ситуація 1 · Б  ·  Ситуація 2 · Б"},
@@ -515,10 +852,24 @@ const LAW = [
    u:"Ситуація 1 · А, Б  ·  Ситуація 2 · А, В"},
   {t:"Наказ МВС від 09.11.2016 № 1179 «Правила етичної поведінки поліцейських»",
    d:"Етичні стандарти служби: чесність, неупередженість і справедливе ставлення до людей. Прикладна основа для оцінки рівності вимог до всіх підлеглих.",
-   u:"Ситуація 2 · А, Б"},
-  {t:"Закон України «Про Національну поліцію» від 02.07.2015 № 580-VIII",
-   d:"Рамковий закон про засади діяльності поліції та статус поліцейського, у межах яких діє командир.",
-   u:"Усі ситуації"}
+   u:"Ситуація 2 · А, Б"}
+];
+const LAW_2 = [
+  {t:"Закон України «Про запобігання корупції», ст. 23 — обмеження щодо одержання подарунків",
+   d:"Особам, уповноваженим на виконання функцій держави, заборонено вимагати, просити та одержувати подарунки у випадках, визначених статтею. Рішення на користь особи, від якої отримано подарунок, вважаються прийнятими в умовах конфлікту інтересів (ч. 4).",
+   u:"Крок 1 · А, В  ·  Крок 2А · усі варіанти"},
+  {t:"Закон України «Про запобігання корупції», ст. 54",
+   d:"Заборона на одержання органами державної влади пільг, послуг і майна поза встановленим законом порядком. Благодійна допомога допускається лише в передбачених законом випадках і порядку — не «неофіційно» і не «через профспілку».",
+   u:"Крок 1 · А, В  ·  Крок 2В · усі варіанти"},
+  {t:"Закон України «Про запобігання корупції», ст. 22",
+   d:"Заборона використовувати службові повноваження чи становище для одержання неправомірної вигоди для себе чи інших осіб. Обшуки за запитом бізнесмена — використання становища в чужих інтересах.",
+   u:"Крок 2А · Б"},
+  {t:"Закон України «Про Дисциплінарний статут Національної поліції України» від 15.03.2018 № 2337-VIII",
+   d:"Підстава для дисциплінарної відповідальності за порушення службової дисципліни, зокрема й у випадках, коли командир визнає провину та повертає техніку.",
+   u:"Крок 2В · Б"},
+  {t:"Наказ МВС від 09.11.2016 № 1179 «Правила етичної поведінки поліцейських»",
+   d:"Етичні стандарти поведінки поліцейського: чесність, неупередженість, незалежність від інтересів третіх осіб.",
+   u:"Усі кроки"}
 ];
 
 /* ---- Звання за результат ---- */
@@ -542,17 +893,11 @@ const store = {
   get(){try{return JSON.parse(localStorage.getItem("cmd-ethics")||"{}")}catch{return {}}},
   set(v){try{localStorage.setItem("cmd-ethics",JSON.stringify(v))}catch{}}
 };
-const settings = (()=>{
-  let v={timer:true};
-  try{v={...v,...JSON.parse(localStorage.getItem("cmd-ethics-settings")||"{}")}}catch{}
-  return v;
-})();
-const saveSettings=()=>{try{localStorage.setItem("cmd-ethics-settings",JSON.stringify(settings))}catch{}};
 const HINT_START = "Показники починаються з 0% і зростають залежно від ваших рішень.";
 
 function reset(){
   stopTimer();
-  state = {m:{law:0,auth:0,team:0}, history:[], step:0};
+  state = {m:Object.fromEntries(cur.metrics.map(x=>[x.id,0])), history:[], step:0};
   renderMeters();
   setProgress(0);
   setTimerUI(null);
@@ -561,7 +906,7 @@ function reset(){
 /* ================== HUD ================== */
 function color(v){return v>=70?"var(--good)":v>=40?"var(--warn)":"var(--bad)"}
 function renderMeters(delta){
-  $("#meters").innerHTML = METRICS.map(x=>{
+  $("#meters").innerHTML = cur.metrics.map(x=>{
     const v = state.m[x.id], d = delta && delta[x.id];
     return `<div class="meter"><div class="row"><span>${x.name}</span><span>${v}%<span class="delta ${d>0?"up":"down"} ${d?"show":""}">${d?(d>0?"+":"")+d:""}</span></span></div>
       <div class="bar"><i style="width:${v}%;background:${color(v)}"></i></div></div>`;
@@ -588,7 +933,7 @@ setInterval(()=>{$("#clock").textContent=new Date().toLocaleTimeString("uk-UA")}
 })();
 
 /* ================== TIMER ================== */
-let tmr=null, tDeadline=0;
+let tmr=null, tDeadline=0, lastTickSec=null;
 
 function setTimerUI(left){
   const el=$("#timer"), bar=$("#tbar");
@@ -596,11 +941,17 @@ function setTimerUI(left){
     el.className = settings.timer ? "timer idle" : "timer idle off";
     $("#tval").textContent = settings.timer ? "—" : "ВИМК";
     bar.style.width="0%";
+    lastTickSec = null;
     return;
   }
   const cls = left<=5 ? " danger" : left<=10 ? " warn" : "";
   el.className = "timer"+cls;
-  $("#tval").textContent = Math.max(0,Math.ceil(left))+" с";
+  const sec = Math.max(0,Math.ceil(left));
+  $("#tval").textContent = sec+" с";
+  if(sec <= 5 && sec > 0 && sec !== lastTickSec){
+    lastTickSec = sec;
+    Sound.tick();
+  }
   bar.style.width = Math.max(0,left/TIME_LIMIT*100)+"%";
   bar.style.background = left<=5 ? "var(--bad)" : left<=10 ? "var(--warn)" : "var(--gold)";
 }
@@ -649,6 +1000,7 @@ function paintTimerCard(btn){
 
 function menu(){
   typing=null;
+  cur = SCN[1];
   reset();
   $("#hint").textContent=HINT_START;
   show(`
@@ -658,7 +1010,7 @@ function menu(){
     <div class="menu">
       <button class="menu-banner" id="mGo">
         <span class="mi">⚔️</span>
-        <span><b>Розпочати місію</b><small>Пройдіть сюжетну кампанію: внутрішня дисципліна, а далі — тиск на службі. Ваша репутація з першої справи вплине на другу.</small></span>
+        <span><b>Розпочати місію</b><small>Оберіть один із двох сценаріїв: «Прохання підлеглого» (дисципліна та тиск на службі) або «Щира подяка» (подарунки та конфлікт інтересів).</small></span>
       </button>
       <div class="menu-grid">
         <button class="menu-card" id="mHow"><span class="mi">🎯</span><b>Як грати</b><small>Правила, показники та що означають кольори.</small></button>
@@ -668,7 +1020,7 @@ function menu(){
       </div>
     </div>
   `);
-  $("#mGo").onclick=startMission;
+  $("#mGo").onclick=scenarioPicker;
   $("#mHow").onclick=howto;
   $("#mLaw").onclick=lawScreen;
   $("#mRank").onclick=ranksScreen;
@@ -680,7 +1032,39 @@ function menu(){
   };
 }
 
-function startMission(){ reset(); scene("s1"); }
+/* ---------- Вибір сценарію ---------- */
+function scenarioPicker(){
+  typing=null; stopTimer();
+  const by = store.get().by||{};
+  $("#hint").textContent="Оберіть сценарій. Кожен має власні показники командира.";
+  show(`
+    <button class="back" id="back">← До меню</button>
+    <div class="kicker">Розпочати місію</div>
+    <h2>Оберіть сценарій</h2>
+    <div class="scn-grid">
+      ${[1,2].map(n=>{
+        const s=SCN[n], b=by[n]&&by[n].best;
+        return `<button class="scn-card" data-n="${n}">
+          <svg class="scn-ic" viewBox="0 0 48 48">${ICON[s.icon].replace(/^<svg[^>]*>/,"").replace(/<\/svg>$/,"")}</svg>
+          <span class="tag">Сценарій ${n} · ${s.tag}</span>
+          <b>${s.title}</b>
+          <p>${s.desc}</p>
+          <span class="chips">${s.metrics.map(m=>`<span>${m.ic} ${m.name}</span>`).join("")}</span>
+          <span class="bestline">Найкращий результат: <b>${b!=null?b+"%":"—"}</b></span>
+        </button>`;
+      }).join("")}
+    </div>
+    <div class="actions"><button class="btn ghost" id="back2">← До меню</button></div>
+  `);
+  document.querySelectorAll(".scn-card").forEach(c=>c.onclick=()=>pickScenario(+c.dataset.n));
+  $("#back").onclick=menu; $("#back2").onclick=menu;
+}
+
+function pickScenario(n){
+  cur = SCN[n];
+  reset();
+  scene(cur.start);
+}
 
 /* ---------- Як грати ---------- */
 function howto(){
@@ -690,11 +1074,11 @@ function howto(){
     <div class="kicker">Довідка</div>
     <h2>Як грати</h2>
     <ol class="rules">
-      <li><span><b>Місія з двох ситуацій.</b> Ви проходите оперативну ситуацію №1, а ситуація №2 залежить від вашого першого рішення — репутація переходить далі.</span></li>
+      <li><span><b>Два сценарії.</b> «Прохання підлеглого» та «Щира подяка». Кожен складається з двох кроків, а другий крок залежить від вашого першого рішення.</span></li>
       <li><span><b>Оберіть один варіант дій</b> — торкніться картки або натисніть клавішу (1–3 чи А–Б–В).</span></li>
-      <li><span><b>Показники командира.</b> Законність, авторитет і згуртованість колективу починаються з 0% і накопичуються від ваших рішень. Помилкові рішення знижують їх, але нижче 0% показник не падає.</span></li>
+      <li><span><b>Показники командира.</b> У кожного сценарію свої три показники (наприклад, законність, авторитет, згуртованість або доброчесність, ефективність, довіра колег). Вони починаються з 0% і накопичуються від ваших рішень. Нижче 0% показник не падає.</span></li>
       <li><span><b>Таймер.</b> На кожне рішення — ${TIME_LIMIT} секунд (таймер можна вимкнути в меню). Якщо час вичерпано, рішення вважається не ухваленим, і це має ціну.</span></li>
-      <li><span><b>Підсумок.</b> Етичний рейтинг у відсотках: 75% — якість ваших рішень, 25% — підсумкові показники. За результат присвоюється звання.</span></li>
+      <li><span><b>Підсумок.</b> Етичний рейтинг у відсотках залежить передусім від якості ваших рішень, а також від підсумкових показників. За результат присвоюється звання.</span></li>
     </ol>
     <div class="section-t">Що означають кольори показників</div>
     <div class="legend">
@@ -704,20 +1088,22 @@ function howto(){
     </div>
     <div class="actions"><button class="btn" id="go">Розпочати місію ▸</button><button class="btn ghost" id="back2">До меню</button></div>
   `);
-  $("#back").onclick=menu; $("#back2").onclick=menu; $("#go").onclick=startMission;
+  $("#back").onclick=menu; $("#back2").onclick=menu; $("#go").onclick=scenarioPicker;
 }
 
 /* ---------- Правова база ---------- */
 function lawScreen(){
   $("#hint").textContent=HINT_START;
+  const block = arr => `<div class="law">${arr.map(l=>`<div class="law-item"><b>${l.t}</b><p>${l.d}</p><span class="used">Де застосовується: ${l.u}</span></div>`).join("")}</div>`;
   show(`
     <button class="back" id="back">← До меню</button>
     <div class="kicker">Довідка</div>
     <h2>Правова база</h2>
     <p class="lead" style="font-size:16px">Норми, на які спирається оцінка кожного рішення в симуляторі.</p>
-    <div class="law">
-      ${LAW.map(l=>`<div class="law-item"><b>${l.t}</b><p>${l.d}</p><span class="used">Де застосовується: ${l.u}</span></div>`).join("")}
-    </div>
+    <div class="section-t">Сценарій 1 · Прохання підлеглого</div>
+    ${block(LAW_1)}
+    <div class="section-t">Сценарій 2 · Щира подяка</div>
+    ${block(LAW_2)}
     <p class="fine">Навчальна довідка. Перед використанням у навчальному процесі звіряйте актуальні редакції актів на zakon.rada.gov.ua.</p>
     <div class="actions"><button class="btn ghost" id="back2">← До меню</button></div>
   `);
@@ -727,24 +1113,24 @@ function lawScreen(){
 /* ---------- Звання ---------- */
 function ranksScreen(){
   const best = store.get().best;
-  const cur = best!=null ? rankFor(best) : null;
+  const curRank = best!=null ? rankFor(best) : null;
   $("#hint").textContent=HINT_START;
   show(`
     <button class="back" id="back">← До меню</button>
     <div class="kicker">Довідка</div>
     <h2>Звання за результат</h2>
-    <p class="lead" style="font-size:16px">${cur
-      ? `Ваш найкращий результат: <b>${best}%</b>. Поточне звання: <b style="color:var(--gold)">${cur.name}</b>.`
-      : "Пройдіть місію, щоб отримати перше звання. Звання умовні й присвоюються за етичний рейтинг."}</p>
+    <p class="lead" style="font-size:16px">${curRank
+      ? `Ваш найкращий результат: <b>${best}%</b>. Поточне звання: <b style="color:var(--gold)">${curRank.name}</b>.`
+      : "Пройдіть місію, щоб отримати перше звання. Звання умовні й присвоюються за етичний рейтинг у будь-якому сценарії."}</p>
     <ul class="ranks">
-      ${RANKS.map(r=>`<li class="rk ${best!=null&&best>=r.min?"reached":""} ${cur&&cur.name===r.name?"current":""}">
+      ${RANKS.map(r=>`<li class="rk ${best!=null&&best>=r.min?"reached":""} ${curRank&&curRank.name===r.name?"current":""}">
         <span class="ic">${r.icon}</span>
         <div><div class="nm">${r.name}</div><div class="ds">${r.d}</div></div>
         <span class="mn">від ${r.min}%</span></li>`).join("")}
     </ul>
     <div class="actions"><button class="btn" id="go">Розпочати місію ▸</button><button class="btn ghost" id="back2">До меню</button></div>
   `);
-  $("#back").onclick=menu; $("#back2").onclick=menu; $("#go").onclick=startMission;
+  $("#back").onclick=menu; $("#back2").onclick=menu; $("#go").onclick=scenarioPicker;
 }
 
 /* ---------- Ситуації ---------- */
@@ -757,7 +1143,7 @@ function stepper(cur){
 }
 
 function scene(id){
-  const sc = SCENES[id];
+  const sc = cur.scenes[id];
   stopTimer(); setTimerUI(null);
   state.step = sc.step; setProgress(sc.step);
   $("#hint").textContent = settings.timer
@@ -768,7 +1154,7 @@ function scene(id){
       <div class="scene-icon">${ICON[sc.icon]}</div>
       <div><div class="kicker">${sc.kicker}</div><h2>${sc.title}</h2>${stepper(sc.step)}</div>
     </div>
-    ${sc.rep?`<div class="rep">★ Репутація з першої справи: ${sc.rep}</div>`:""}
+    ${sc.rep?`<div class="rep">★ ${sc.rep}</div>`:""}
     <div class="brief" id="brief"></div>
     <button class="skip" id="skip">Показати весь текст</button>
     <div class="choices" id="choices"></div>
@@ -781,9 +1167,9 @@ function scene(id){
         <span class="lbl">${c.label}<small>${c.sub}</small></span>
         <span class="arrow">→</span>
       </button>`).join("");
-    $("#choices").querySelectorAll(".choice").forEach(b=>b.onclick=()=>choose(id,+b.dataset.i));
+    $("#choices").querySelectorAll(".choice").forEach(b=>b.onclick=()=>{ Sound.choose(); choose(id,+b.dataset.i); });
     $("#hint").textContent = settings.timer ? "Оберіть один варіант дій, поки йде час." : "Оберіть один варіант дій.";
-    startTimer(()=>applyChoice(id,TIMEOUT_CHOICE));
+    startTimer(()=>applyChoice(id,timeoutChoice(cur)));
   };
   typeText($("#brief"),sc.text,renderChoices);
   $("#skip").onclick=()=>typing&&typing.finish();
@@ -794,13 +1180,17 @@ const VERDICT = {good:"Обґрунтоване рішення",mid:"Ризик�
 const choiceName = c => c.key==="⏱" ? c.label : `${c.key}. ${c.label}`;
 
 function choose(sceneId,i){
-  applyChoice(sceneId, SCENES[sceneId].choices[i]);
+  applyChoice(sceneId, cur.scenes[sceneId].choices[i]);
 }
 
 function applyChoice(sceneId,c){
   stopTimer(); setTimerUI(null);
   typing=null;
-  const sc=SCENES[sceneId];
+  if(c.verdict === "good") Sound.good();
+  else if(c.verdict === "mid") Sound.mid();
+  else Sound.bad();
+
+  const sc=cur.scenes[sceneId];
   const applied={};
   for(const k in c.fx){
     const before=state.m[k];
@@ -809,10 +1199,10 @@ function applyChoice(sceneId,c){
   }
   state.history.push({scene:sc, choice:c});
   renderMeters(applied);
-  const eff = METRICS.map(x=>{
+  const eff = cur.metrics.filter(x=>c.fx[x.id]).map(x=>{
     const d=c.fx[x.id], a=applied[x.id];
     const floor = d<0 && a!==d ? ` <em>· на мінімумі</em>` : "";
-    return `<span class="effect ${d>=0?"up":"down"}">${d>=0?"▲ +":"▼ "}${d} ${x.name}${floor}</span>`;
+    return `<span class="effect ${d>=0?"up":"down"}">${x.ic} ${d>=0?"▲ +":"▼ "}${d} ${x.name}${floor}</span>`;
   }).join("");
   const last = !!c.ending;
   $("#hint").textContent = "Зверніть увагу, як змінилися показники командира.";
@@ -829,20 +1219,26 @@ function applyChoice(sceneId,c){
 }
 
 function computeScore(){
-  const decisions = state.history.reduce((s,h)=>s+h.choice.pts,0);   // до 100
-  const avg = (state.m.law+state.m.auth+state.m.team)/3;               // 0..100
-  // 75% — якість рішень, 25% — підсумкові показники
-  return Math.round(clamp(clamp(decisions)*0.75 + avg*0.25));
+  const decisions = state.history.reduce((s,h)=>s+h.choice.pts,0);
+  const avg = cur.metrics.reduce((s,x)=>s+state.m[x.id],0)/cur.metrics.length;
+  const [wd,wa] = cur.weights;
+  return Math.round(clamp(clamp(decisions)*wd + avg*wa));
 }
 
 function result(endingId){
-  const e = ENDINGS[endingId];
+  const e = cur.endings[endingId] || ALL_ENDINGS[endingId];
   const score = computeScore();
   const rank = rankFor(score);
   setProgress(3);
-  const s = store.get(); s.tries=(s.tries||0)+1; s.best=Math.max(s.best??0,score); store.set(s); updateBest();
+  const s = store.get();
+  s.tries=(s.tries||0)+1; s.best=Math.max(s.best??0,score);
+  s.by = s.by||{};
+  const b = s.by[cur.id]||{};
+  s.by[cur.id] = {tries:(b.tries||0)+1, best:Math.max(b.best??0,score)};
+  store.set(s); updateBest();
   $("#hint").textContent = "Перегляньте розбір і спробуйте інший шлях — порівняйте результати.";
   const tone = score>=80?"good":score>=50?"mid":"bad";
+  Sound.finish(tone);
   const col = {good:"#3ddc97",mid:"#ffb547",bad:"#ff5d6c"}[tone];
   const C = 2*Math.PI*104;
   const message = score>=80 ? "Відмінно! Ви дієте як зразковий командир: законно, послідовно та справедливо."
@@ -860,7 +1256,7 @@ function result(endingId){
         <div class="val"><div><b><span id="num">0</span><sup>%</sup></b><small>етичний рейтинг</small></div></div>
       </div>
       <div>
-        <div style="margin-bottom:14px">${stepper(3)}</div><div class="kicker">Підсумок · ${e.grade}</div>
+        <div style="margin-bottom:14px">${stepper(3)}</div><div class="kicker">Сценарій ${cur.id} · ${e.grade}</div>
         <h1 style="font-size:clamp(28px,4vw,44px)">${e.title}</h1>
         <p class="grade" style="color:${col}">${message}</p>
         <div class="rank-badge">${rank.icon} Звання: <b>${rank.name}</b></div>
@@ -870,12 +1266,14 @@ function result(endingId){
     <div class="section-t">Наслідки</div>
     <p style="margin:0">${e.text}</p>
 
-    <div class="section-t">Правова основа</div>
+    <div class="section-t">Нормативна база</div>
     <div class="legal">${e.legal}</div>
+
+    ${cur.conclusion?`<div class="section-t">Висновок системи</div><div class="conclusion">${cur.conclusion}</div>`:""}
 
     <div class="section-t">Підсумкові показники</div>
     <div class="final-meters">
-      ${METRICS.map(x=>`<div class="fm"><div class="n" style="color:${color(state.m[x.id])}">${state.m[x.id]}%</div><div class="l">${x.name}</div>
+      ${cur.metrics.map(x=>`<div class="fm"><div class="n" style="color:${color(state.m[x.id])}">${state.m[x.id]}%</div><div class="l">${x.ic} ${x.name}</div>
         <div class="bar" style="margin-top:10px"><i style="width:${state.m[x.id]}%;background:${color(state.m[x.id])}"></i></div></div>`).join("")}
     </div>
 
@@ -889,10 +1287,11 @@ function result(endingId){
     </ol>
 
     <div class="section-t">Питання для обговорення</div>
-    <ul class="reflect">${REFLECT[tone].map(q=>`<li>${q}</li>`).join("")}</ul>
+    <ul class="reflect">${REFLECT[cur.id][tone].map(q=>`<li>${q}</li>`).join("")}</ul>
 
     <div class="actions">
-      <button class="btn" id="again">↻ Пройти ще раз</button>
+      <button class="btn" id="again">↻ Ще раз</button>
+      <button class="btn ghost" id="other">Інший сценарій</button>
       <button class="btn ghost" id="tomenu">До меню</button>
       <button class="btn ghost" id="copy">Скопіювати результат</button>
     </div>
@@ -900,16 +1299,19 @@ function result(endingId){
   requestAnimationFrame(()=>requestAnimationFrame(()=>{ $("#arc").style.strokeDashoffset = C*(1-score/100); }));
   const num=$("#num"), t0=performance.now(), dur=reduce?0:1800;
   (function tick(t){const p=dur?Math.min(1,(t-t0)/dur):1; num.textContent=Math.round(score*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(tick)})(t0);
-  $("#again").onclick=startMission;
+  $("#again").onclick=()=>pickScenario(cur.id);
+  $("#other").onclick=scenarioPicker;
   $("#tomenu").onclick=menu;
   $("#copy").onclick=async()=>{
-    const txt=`Командирська етика — мій результат: ${score}%, звання «${rank.name}» («${e.title}»). `+
+    const txt=`Командирська етика, сценарій ${cur.id} «${cur.title}» — мій результат: ${score}%, звання «${rank.name}» («${e.title}»). `+
       state.history.map((h,i)=>`Крок ${i+1}: ${h.choice.label}`).join("; ")+".";
     try{await navigator.clipboard.writeText(txt);$("#copy").textContent="Скопійовано ✔"}catch{$("#copy").textContent="Не вдалося скопіювати"}
   };
 }
 
 /* ================== START ================== */
+updateSoundBtn();
+$("#sndBtn").onclick = ()=>{ Sound.toggle(); updateSoundBtn(); };
 updateBest();
 menu();
 document.addEventListener("keydown",e=>{
